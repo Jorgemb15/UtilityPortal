@@ -1,0 +1,849 @@
+﻿@model UtilityPortalLogical.Modelos.ContratoModel
+
+@{
+    ViewBag.Title = "Mantenimiento";
+    Layout = "~/Views/Shared/_LayoutPagePrincipal.cshtml";
+}
+
+<form name="frmFormulario" id="frmFormulario" method="post" style="position:relative">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="CodProceso" id="CodProceso" value="@ViewBag.strCodProceso" />
+    <input type="hidden" name="hddGuardar" id="hddGuardar" value="False" />
+
+    <input type="hidden" name="ContratoCabeceraModel.UsuarioCrea" id="ContratoCabeceraModel.UsuarioCrea" value="@(ViewBag.strCodProceso.Equals("I") ? "" : Model.ContratoCabeceraModel.UsuarioCrea)" />
+    <input type="hidden" name="ContratoCabeceraModel.FechaCrea" id="ContratoCabeceraModel.FechaCrea" value=" @(ViewBag.strCodProceso.Equals("I") ? "" : Model.ContratoCabeceraModel.FechaCrea.ToString("dd/MM/yyyy")) " />
+    <input type="hidden" name="ContratoCabeceraModel.NotificaPagoProveedor" id="ContratoCabeceraModel.NotificaPagoProveedor" value=" @(ViewBag.strCodProceso.Equals("I") ? "" : Model.ContratoCabeceraModel.NotificaPagoProveedor) " />
+
+
+    <nav class="navbar navbar-expand-lg bg-transparent">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <div class="col-lg-3">
+                    <select id="ContratoCabeceraModel.Moneda" name="ContratoCabeceraModel.Moneda" class="classRequerido form-control" @(ViewBag.strCodProceso.Equals("I") ? "" : "readonly") onchange="CambiarMoneda(this)">
+                        <option value="C" @(Model.ContratoCabeceraModel.Moneda.Equals("C") ? "selected" : "")>Colones</option>
+                        <option value="D" @(Model.ContratoCabeceraModel.Moneda.Equals("D") ? "selected" : "")>Dolares</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+
+    <div class="row col-lg-10">
+        <button title="Guardar" class="btn btn-success btn-success" value="Guardar" name="btnGuardar" id="btnGuardar" @(ViewBag.strCodProceso.Equals("V") ? "hidden" : "")>
+            <i class="fa fa-save"></i> Guardar
+        </button>
+    </div>
+    <br />
+    <div class="row col-lg-10">
+
+    </div>
+    <br />
+
+    <h2>Contrato</h2>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">CÓDIGO:</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.Codigo" id="ContratoCabeceraModel.Codigo" value="@(Model.ContratoCabeceraModel.Codigo > 0 ? Model.ContratoCabeceraModel.Codigo.ToString() : "")" readonly />
+        </div>
+        <div class="col-lg-4">
+            <label class="label">FECHA:</label>
+            <input class="form-control w-250 clsFecha" type="text" name="ContratoCabeceraModel.Fecha" id="ContratoCabeceraModel.Fecha" value="@(Model.ContratoCabeceraModel.Fecha > DateTime.MinValue  ? Model.ContratoCabeceraModel.Fecha.ToString("dd/MM/yyyy") : "")" readonly />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">Tipo</label>
+            <select id="ContratoCabeceraModel.Tipo" name="ContratoCabeceraModel.Tipo" class="classRequerido form-control w-250" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "")>
+                <option value="">Seleccione un Tipo de Contrato</option>
+                @{
+                    foreach (UtilityPortalLogical.Modelos.SP_Tipo_Contrato_Consulta_Result lstTipoContrato
+                    in this.ViewBag.lstTipoContrato)
+                    {
+                        <option value="@lstTipoContrato.Codigo" @(Model.ContratoCabeceraModel.Tipo == lstTipoContrato.Codigo ? "selected" : "")>@lstTipoContrato.Descripcion</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-lg-4">
+            <label class="label">Descripción:</label>
+            <input class="form-control w-250 classRequerido" type="text" name="ContratoCabeceraModel.Descripcion" id="ContratoCabeceraModel.Descripcion" value="@(!String.IsNullOrEmpty(Model.ContratoCabeceraModel.Descripcion) ? Model.ContratoCabeceraModel.Descripcion.ToString() : "")" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-12">
+            <label class="label">Detalle:</label>
+            <input class="form-control w-500 classRequerido" type="text" name="ContratoCabeceraModel.Detalle" id="ContratoCabeceraModel.Detalle" value="@(!String.IsNullOrEmpty(Model.ContratoCabeceraModel.Detalle) ? Model.ContratoCabeceraModel.Detalle.ToString() : "")" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">Duración Contrato</label>
+            <select id="ContratoCabeceraModel.Duracion" name="ContratoCabeceraModel.Duracion" class="classRequerido form-control w-250" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "")>
+                <option value="">Seleccione una duración</option>
+                @{
+                    for (int c = 1; c <= 60; c++)
+                    {
+                        <option value="@c" @(Model.ContratoCabeceraModel.Duracion == c ? "selected" : "")>@c Meses</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <label class="label">Frecuencia Pago</label>
+            <div class="form">
+                <input class="form-check-inline classRequerido" type="radio" name="ContratoCabeceraModel.Frecuencia" id="ContratoCabeceraModel.Frecuencia" value="A" @{if (Model.ContratoCabeceraModel.Frecuencia != null) { @(Model.ContratoCabeceraModel.Frecuencia.ToUpper().Equals("A") ? "checked" : "")  } } />Anual
+                <input class="form-check-inline classRequerido" type="radio" name="ContratoCabeceraModel.Frecuencia" id="ContratoCabeceraModel.Frecuencia" value="M" @{if (Model.ContratoCabeceraModel.Frecuencia != null) { @(Model.ContratoCabeceraModel.Frecuencia.ToUpper().Equals("M") ? "checked" : "")  } } />Mensual
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">Fecha Inicio:</label>
+            <input class="form-control w-250 classRequerido clsFecha" type="text" name="ContratoCabeceraModel.FechaInicio" id="ContratoCabeceraModel.FechaInicio" value="@(Model.ContratoCabeceraModel.FechaInicio > DateTime.MinValue  ? Model.ContratoCabeceraModel.FechaInicio.ToString("dd/MM/yyyy") : "")" />
+        </div>
+        <div class="col-lg-4">
+            <label class="label">Fecha Fin:</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.FechaFin" id="ContratoCabeceraModel.FechaFin" value="@(Model.ContratoCabeceraModel.FechaFin > DateTime.MinValue  ? Model.ContratoCabeceraModel.FechaFin.ToString("dd/MM/yyyy") : "")" readonly />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">Fecha Primer Pago:</label>
+            <input class="form-control w-250 classRequerido clsFecha" type="text" name="ContratoCabeceraModel.FechaPago" id="ContratoCabeceraModel.FechaPago" value="@(Model.ContratoCabeceraModel.FechaPago > DateTime.MinValue  ? Model.ContratoCabeceraModel.FechaPago.ToString("dd/MM/yyyy") : "")" />
+        </div>
+        <div class="col-lg-4">
+            <label class="label">Paga a Proveedor</label>
+            <div class="form">
+                <input class="form-check-inline classRequerido" type="radio" name="ContratoCabeceraModel.GeneraPagoProveedor" id="ContratoCabeceraModel.GeneraPagoProveedor" value="S" @{if (Model.ContratoCabeceraModel.GeneraPagoProveedor != null) { @(Model.ContratoCabeceraModel.GeneraPagoProveedor.ToUpper().Equals("S") ? "checked" : "")  } } onchange="HablitarProveedores(this)" />Si
+                <input class="form-check-inline classRequerido" type="radio" name="ContratoCabeceraModel.GeneraPagoProveedor" id="ContratoCabeceraModel.GeneraPagoProveedor" value="N" @{if (Model.ContratoCabeceraModel.GeneraPagoProveedor != null) { @(Model.ContratoCabeceraModel.GeneraPagoProveedor.ToUpper().Equals("N") ? "checked" : "")  } } onchange="HablitarProveedores(this)" />No
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">Proveedor      <span class="fa fa-refresh" onclick="CargarProveedores()"></span></label>
+            <select id="ContratoCabeceraModel.CodProveedor" name="ContratoCabeceraModel.CodProveedor" class="classRequerido form-control  w-250 CodProveedor" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.GeneraPagoProveedor) || Model.ContratoCabeceraModel.GeneraPagoProveedor.Equals("N") ? "disabled" : "")>
+                <option value="">Seleccione un Proveedor</option>
+                @{
+                    foreach (UtilityPortalLogical.Modelos.SP_Proveedor_Consulta_Result lstProveedor
+                    in this.ViewBag.lstProveedor)
+                    {
+                        <option value="@lstProveedor.Codigo" @(Model.ContratoCabeceraModel.CodProveedor == lstProveedor.Codigo ? "selected" : "")>@lstProveedor.Cedula @lstProveedor.Nombre_Completo</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <label class="label" id="lblFechaPagoProveedor" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.GeneraPagoProveedor) || Model.ContratoCabeceraModel.GeneraPagoProveedor.Equals("N") ? "hidden" : "")>Fecha Pago Proveedor:</label>
+            <input class="form-control w-250 classRequerido clsFecha" type="text" name="ContratoCabeceraModel.FechaPagoProveedor" id="ContratoCabeceraModel.FechaPagoProveedor" value="@(Model.ContratoCabeceraModel.FechaPagoProveedor > DateTime.MinValue  ? DateTime.Parse(Model.ContratoCabeceraModel.FechaPagoProveedor.ToString()).ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd/MM/yyyy"))" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.GeneraPagoProveedor) || Model.ContratoCabeceraModel.GeneraPagoProveedor.Equals("N") ? "hidden" : "") />
+        </div>
+        <div class="col-lg-4">
+            <label class="label" id="lblFrecuenciaPagoProveedor" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.GeneraPagoProveedor) || Model.ContratoCabeceraModel.GeneraPagoProveedor.Equals("N") ? "hidden" : "")>Frecuencia Pago Proveedor</label>
+            <select id="ContratoCabeceraModel.FrecuenciaPagoProveedor" name="ContratoCabeceraModel.FrecuenciaPagoProveedor" class="classRequerido form-control  w-250" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.GeneraPagoProveedor) || Model.ContratoCabeceraModel.GeneraPagoProveedor.Equals("N") ? "hidden" : "")>
+                <option value="">Seleccione una Frecuencia</option>
+                <option value="A" @(Model.ContratoCabeceraModel.FrecuenciaPagoProveedor == "A" ? "selected" : "")>Anual</option>
+                <option value="M" @(Model.ContratoCabeceraModel.FrecuenciaPagoProveedor == "M" ? "selected" : "")>Mensual</option>
+            </select>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">CLIENTE</label>
+            <select id="ContratoCabeceraModel.CodCliente" name="ContratoCabeceraModel.CodCliente" class="classRequerido form-control w-250" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "") onchange="ObtenerExoneracion(this)">
+                <option value="">Seleccione un Cliente</option>
+                @{
+                    foreach (UtilityPortalLogical.Modelos.SP_Cliente_Consulta_Result lstCliente
+                    in this.ViewBag.lstCliente)
+                    {
+                        <option value="@lstCliente.Codigo" @(Model.ContratoCabeceraModel.CodCliente == lstCliente.Codigo ? "selected" : "")>@lstCliente.Cedula @lstCliente.Nombre_Completo</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <label class="label">DESCUENTO:</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.PorcentajeDescuento" id="ContratoCabeceraModel.PorcentajeDescuento" value="@Model.ContratoCabeceraModel.PorcentajeDescuento" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "") onchange="CambiarPorcentajeDescuento(this)" />
+        </div>
+    </div>
+    <br />
+
+
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="checkbox" class="form-check-inline" name="ContratoCabeceraModel.NotificaFinContratoMes" value="S" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.NotificaFinContratoMes) || Model.ContratoCabeceraModel.NotificaFinContratoMes.Equals("N") ? "" : "checked") />Notificar Mes Antes
+        </div>
+        <div class="col-lg-3">
+            <label class="label"></label>
+            <input type="checkbox" class="form-check-inline" name="ContratoCabeceraModel.NotificaFinContratoSemana" value="S" @(String.IsNullOrEmpty(Model.ContratoCabeceraModel.NotificaFinContratoSemana) || Model.ContratoCabeceraModel.NotificaFinContratoSemana.Equals("N") ? "" : "checked") />Notificar Semana Antes
+        </div>
+    </div>
+    <br />
+
+
+
+    <div class="row col-lg-10">
+        <div class="col-lg-2">
+            <a id="btnNuevo" name="btnNuevo" title="Nuevo" href="#" class="btn btn-info @(ViewBag.strCodProceso.Equals("V") ? "invisible" : "")" onclick="AgregarNuevoProducto(0, '')"><span class="fa fa-edit"></span> Nuevo</a>
+        </div>
+    </div>
+    <br />
+
+    <table id="Prueba" name="Prueba" class="table table-bordered table-striped table-responsive-sm table-sm">
+        <thead>
+            <tr class="d-flex">
+                <th class="col-2">Codigo Producto</th>
+                <th class="col-4">Nombre Producto</th>
+                <th class="col-2">Precio</th>
+                <th class="col-2">Cantidad</th>
+                <th class="col-2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody name="CuerpoTabla" id="CuerpoTabla">
+            @{
+                int nContador = 0;
+
+                foreach (UtilityPortalLogical.Modelos.SP_ContratoDetalle_Obtener_Result PosicionModelo in Model.ContratoDetalleModel)
+                {
+                    <tr name="ContratoDetalleModel[@nContador]" id="ContratoDetalleModel[@nContador]" class="d-flex">
+                        <input name="ContratoDetalleModel[@nContador].CodContrato" id="ContratoDetalleModel[@nContador].CodContrato" type="hidden" value="@PosicionModelo.CodContrato" />
+                        <input name="ContratoDetalleModel[@nContador].NumLinea" id="ContratoDetalleModel[@nContador].NumLinea" type="hidden" value="@PosicionModelo.NumLinea" />
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[@nContador].CodProducto" id="ContratoDetalleModel[@nContador].CodProducto" value="@PosicionModelo.CodProducto" readonly />
+                            </div>
+                        </td>
+                        <td class="col-4">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[@nContador].Nombre" id="ContratoDetalleModel[@nContador].Nombre" value="@PosicionModelo.Nombre" readonly />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[@nContador].PrecioProducto" id="ContratoDetalleModel[@nContador].PrecioProducto" value="@PosicionModelo.PrecioProducto" readonly />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="ContratoDetalleModel[@nContador].CantidadProducto" id="ContratoDetalleModel[@nContador].CantidadProducto" value="@PosicionModelo.CantidadProducto" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "") />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <a title="Parametros" class="btn btn-danger btn-md center-block w-75px @(ViewBag.strCodProceso.Equals("V") ? "invisible" : "")" href="#" onclick="EliminarLinea(@nContador)"><i class="fa fa-remove"></i> </a>
+                            </div>
+                        </td>
+                    </tr>
+                    nContador = nContador + 1;
+                }
+                <script>
+                    var nContador = @nContador;
+                    var nCodContrato = @Model.ContratoCabeceraModel.Codigo;
+                </script>
+            }
+        </tbody>
+    </table>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">SUBTOTAL</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.SubTotal" id="ContratoCabeceraModel.SubTotal" value="@Model.ContratoCabeceraModel.SubTotal" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">DESCUENTO</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.Descuento" id="ContratoCabeceraModel.Descuento" value="@Model.ContratoCabeceraModel.Descuento" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">IVA</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.Iva" id="ContratoCabeceraModel.Iva" value="@Model.ContratoCabeceraModel.Iva" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">TOTAL</label>
+            <input class="form-control w-250" type="text" name="ContratoCabeceraModel.Total" id="ContratoCabeceraModel.Total" value="@Model.ContratoCabeceraModel.Total" readonly />
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <div class="col-lg-1">
+            <a title="Regresar" class="btn btn-primary" href="@Response.ApplyAppPathModifier("~/Contrato/Lista")"><span class="fa fa-backward"></span> Regresar al Listado</a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalProducto" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Productos</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divProductos" class="col-xl-12">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+<script>
+
+        var CodMoneda = '@Model.ContratoCabeceraModel.Moneda';
+        var nPorcentajeExoneracion = 0;
+        var nPorcentajeDescuento = 0;
+
+        function ValidarControles() {
+            $("#frmFormulario").validate({
+                rules: {
+                },
+                errorPlacement: function (error, element) {
+                    element.attr("placeholder", error.text());
+                }
+            });
+            $('.classRequerido').each(function () {
+                $(this).rules('add', {
+                    required: true
+                });
+            });
+
+            AsignarFormatoFecha(".clsFecha");
+            AgregarFunciones();
+        }
+
+        function AgregarNuevoProducto(nCodigo, strNombre) {
+            var urlProducto = 'ListaProductos?' + window.location.href.slice(window.location.href.indexOf('?') + 1);
+
+            $.ajax({
+                url: urlProducto,
+                dataType: "html",
+                type: 'POST',
+                data: {
+                    nCodigo: nCodigo,
+                    strNombre: strNombre
+                },
+                success: function (data, textStatus, jQxhr) {
+                    $("#ModalProducto").modal();
+                    $("#divProductos").empty().append(data);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Generar el buscador de Productos",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function AgregarProducto(nCodProducto) {
+
+            var url = '@Url.Action("ObtenerProducto","Contrato")';
+            var parametros =
+            {
+                nCodProducto: nCodProducto
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(parametros),
+
+                success: function (data, textStatus, jQxhr) {
+
+                    $(data).each(function () {
+                        var objProducto = this;
+
+                        $("#CuerpoTabla").append('<tr name="ContratoDetalleModel[' + nContador + ']" id="ContratoDetalleModel[' + nContador + ']" class="d-flex"><input name="ContratoDetalleModel[' + nContador + '].CodContrato" id="ContratoDetalleModel[' + nContador + '].CodContrato" type="hidden" value="' + nCodContrato + '" /><input name="ContratoDetalleModel[' + nContador + '].NumLinea" id="ContratoDetalleModel[' + nContador + '].NumLinea" type="hidden" value="' + nContador + '" /><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].CodProducto" id="ContratoDetalleModel[' + nContador + '].CodProducto" value="' + objProducto.Codigo + '" readonly /></div></td><td class="col-4"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].Nombre" id="ContratoDetalleModel[' + nContador + '].Nombre" value="' + objProducto.Nombre + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].PrecioProducto" id="ContratoDetalleModel[' + nContador + '].PrecioProducto" value="' + objProducto.Precio + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].CantidadProducto" id="ContratoDetalleModel[' + nContador + '].CantidadProducto" value="1" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")/></div></td><td class="col-2"><div class="text-center"><a title="Parametros" class="btn btn-danger btn-md center-block w-75px" href="#" onclick="EliminarLinea(' + nContador + ')" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")><i class="fa fa-remove"></i> </a></div></td></tr>');
+                        AgregarFunciones();
+                        nContador = nContador + 1;
+                    });
+                    CalcularContrato(false);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Calcular Contrato",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function EliminarLinea(nLinea) {
+            document.getElementById('ContratoDetalleModel[' + nLinea + ']').remove();
+            CalcularContrato(false);
+        }
+
+        function CalcularContrato(Guardar) {
+            var url = '@Url.Action("Calcular","Contrato")';
+
+            var DetalleContrato = [];
+
+            var CuerpoTabla = document.getElementById('CuerpoTabla');
+            var tr = CuerpoTabla.getElementsByTagName('tr');
+
+
+            for (var i = 0; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName('td');
+                var Linea = [];
+                for (var j = 0; j < td.length; j++) {
+                    var div = td[j].getElementsByTagName('div');
+                    for (var v = 0; v < div.length; v++) {
+                        var input = div[v].getElementsByTagName('input');
+                        if (input[0] != null) {
+                            Linea.push(input[0].value);
+                        }
+                    }
+
+                }
+                if (Linea != null) {
+                    DetalleContrato.push(Linea);
+                }
+            }
+
+            if (DetalleContrato.length > 0) {
+                var parametros =
+                {
+                    DetalleContrato: DetalleContrato,
+                    nPorcentajeExoneracion: nPorcentajeExoneracion,
+                    nPorcentajeDescuento: document.getElementById('ContratoCabeceraModel.PorcentajeDescuento').value
+                };
+
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(parametros),
+
+                    success: function (data, textStatus, jQxhr) {
+                        document.getElementById('CotizacionCabeceraModel.SubTotal').value = data.SubTotal.toLocaleString('en-US');
+                        document.getElementById('CotizacionCabeceraModel.Descuento').value = data.Descuento.toLocaleString('en-US');
+                        document.getElementById('CotizacionCabeceraModel.Iva').value = data.Iva.toLocaleString('en-US');
+                        document.getElementById('CotizacionCabeceraModel.Total').value = data.toLocaleString('en-US');
+
+                        if (CodMoneda == 'C') {
+                        }
+                        else {
+                        }
+                        if (data.DetalleContrato != null) {
+                            RegenerarContador(data.DetalleContrato);
+                        }
+                        if (data.DetalleContrato != null) {
+                            RegenerarContador(data.DetalleContrato);
+                        }
+                        if (Guardar == true) {
+
+                            if ($('#frmFormulario').valid()) {
+                                bootbox.confirm({
+                                    message: "El total de la Contrato es de ₡" + data.Total + ", Desea Guardar la Contrato?",
+                                    buttons: {
+                                        confirm: {
+                                            label: 'Yes',
+                                            className: 'btn-success'
+                                        },
+                                        cancel: {
+                                            label: 'No',
+                                            className: 'btn-danger'
+                                        }
+                                    },
+                                    callback: function (result) {
+                                        if (result == true) {
+                                            document.getElementById("hddGuardar").value = "Guardar";
+                                            document.getElementById("frmFormulario").submit();
+                                        }
+                                    }
+                                });
+                            } else {
+                                bootbox.alert({
+                                    message: "Por favor llene todo el Formulario para calcular",
+                                    className: 'rubberBand animated modal-top',
+                                    callback: function () {
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    error: function (jQxhr, textStatus, errorThrown) {
+                        bootbox.alert({
+                            message: "Codigo de Articulo no existe",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function RegenerarContador(DetalleContrato) {
+            const CuerpoTabla = document.getElementById("CuerpoTabla");
+            CuerpoTabla.innerHTML = '';
+            nContador = 0;
+            for (var f = 0; f < DetalleContrato.length; f++) {
+                $("#CuerpoTabla").append('<tr name="ContratoDetalleModel[' + nContador + ']" id="ContratoDetalleModel[' + nContador + ']" class="d-flex"><input name="ContratoDetalleModel[' + nContador + '].CodContrato" id="ContratoDetalleModel[' + nContador + '].CodContrato" type="hidden" value="' + nCodContrato + '" /><input name="ContratoDetalleModel[' + nContador + '].NumLinea" id="ContratoDetalleModel[' + nContador + '].NumLinea" type="hidden" value="' + nContador + '" /><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].CodProducto" id="ContratoDetalleModel[' + nContador + '].CodProducto" value="' + DetalleContrato[f][0] + '" readonly /></div></td><td class="col-4"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].Nombre" id="ContratoDetalleModel[' + nContador + '].Nombre" value="' + DetalleContrato[f][1] + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].PrecioProducto" id="ContratoDetalleModel[' + nContador + '].PrecioProducto" value="' + DetalleContrato[f][2] + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="ContratoDetalleModel[' + nContador + '].CantidadProducto" id="ContratoDetalleModel[' + nContador + '].CantidadProducto" value="' + DetalleContrato[f][3] + '" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")/></div></td><td class="col-2"><div class="text-center"><a title="Parametros" class="btn btn-danger btn-md center-block w-75px" href="#" onclick="EliminarLinea(' + nContador + ')" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")><i class="fa fa-remove"></i> </a></div></td></tr>');
+                nContador = nContador + 1;
+
+            }
+            AgregarFunciones();
+        }
+
+        function AgregarFunciones() {
+            $('.classRequerido').each(function () {
+                $(this).rules('add', {
+                    required: true
+                });
+            });
+            $('.clsSoloNumeros').each(function () {
+                this.addEventListener("keypress", function (e) {
+
+                    if (e.keyCode) {
+                        if (e.keyCode > 47 && e.keyCode < 58) {
+                            return true;
+                        }
+                        else {
+                            e.preventDefault();
+                            return false;
+                        }
+                    } else if (e.which) {
+                        if (e.which > 47 && e.which < 58) {
+                            return true;
+                        }
+                        else {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                    else {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, false);
+
+                this.addEventListener("blur", function (e) {
+
+                    if (this.value == '') {
+                        this.value = 0;
+                    }
+                    CalcularContrato(false);
+                }, true);
+            });
+        }
+
+        function EnviarContrato() {
+
+            var url = '@Url.Action("EnviarCorreo","Contrato")';
+
+            var parametros =
+            {
+                nCodContrato: '@Model.ContratoCabeceraModel.Codigo.ToString()'
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                async: true,
+                data: JSON.stringify(parametros),
+                success: function (data, textStatus, jQxhr) {
+                    if (data == true) {
+                        bootbox.alert({
+                            message: "Correo Enviado Exitosamente",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    } else {
+                        bootbox.alert({
+                            message: "Correo no enviado, por favor verificar",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    }
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al enviar Correo " + textStatus + jQxhr,
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function DescargarContrato() {
+
+            window.location.href = "@Url.RouteUrl(new { Controller = "Contrato", Action = "DescargarContrato" })/?nCodContrato=" + '@Model.ContratoCabeceraModel.Codigo.ToString()';
+
+            @*var url = '@Url.Action("DescargarContrato", "Contrato")';
+
+            var parametros =
+            {
+                nCodContrato: '@Model.ContratoCabeceraModel.Codigo.ToString()'
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(parametros),
+                success: function (r) {
+                    alert('asdf');
+                    //Convert Base64 string to Byte Array.
+                    //var bytes = Base64ToBytes(r.d);
+
+                    ////Convert Byte Array to BLOB.
+                    //var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                    ////Check the Browser type and download the File.
+                    //var isIE = false || !!document.documentMode;
+                    //if (isIE) {
+                    //    window.navigator.msSaveBlob(blob, fileName);
+                    //} else {
+                    //    var url = window.URL || window.webkitURL;
+                    //    link = url.createObjectURL(blob);
+                    //    var a = $("<a />");
+                    //    a.attr("download", fileName);
+                    //    a.attr("href", link);
+                    //    $("body").append(a);
+                    //    a[0].click();
+                    //    $("body").remove(a);
+                    //}
+                }
+                //,error: function (jQxhr, textStatus, errorThrown) {
+                //    bootbox.alert({
+                //        message: "Error al enviar Correo " + textStatus + jQxhr,
+                //        className: 'rubberBand animated modal-top',
+                //        callback: function () {
+                //        }
+                //    });
+                //}
+            });*@
+                }
+
+        function CambiarMoneda(Control) {
+            var url = '@Url.Action("CambiarMoneda","Contrato")';
+            CodMoneda = Control.value;
+            var DetalleContrato = [];
+
+            var CuerpoTabla = document.getElementById('CuerpoTabla');
+            var tr = CuerpoTabla.getElementsByTagName('tr');
+
+
+            for (var i = 0; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName('td');
+                var Linea = [];
+                for (var j = 0; j < td.length; j++) {
+                    var div = td[j].getElementsByTagName('div');
+                    for (var v = 0; v < div.length; v++) {
+                        var input = div[v].getElementsByTagName('input');
+                        if (input[0] != null) {
+                            Linea.push(input[0].value);
+                        }
+                    }
+
+                }
+                if (Linea != null) {
+                    DetalleContrato.push(Linea);
+                }
+            }
+
+
+            var parametros =
+            {
+                strCodMoneda: Control.value,
+                DetalleContrato: DetalleContrato
+            };
+
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(parametros),
+                success: function (data, textStatus, jQxhr) {
+                    if (data.DetalleContrato != null) {
+                        RegenerarContador(data.DetalleContrato);
+                    }
+                    CalcularContrato(false);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Cambiar Moneda",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function ObtenerExoneracion(nCodCliente) {
+            if (nCodCliente.value != '' && nCodCliente.value) {
+                var url = '@Url.Action("ObtenerExoneracion","Contrato")';
+
+                var parametros =
+                {
+                    nCodCliente: nCodCliente.value
+                };
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(parametros),
+                    success: function (data, textStatus, jQxhr) {
+                        if (data > 0) {
+                            bootbox.alert({
+                                message: "Este Cliente Posee un porcentaje de Exoneracion de " + data + '%',
+                                className: 'rubberBand animated modal-top',
+                                callback: function () {
+                                }
+                            });
+                        }
+                        nPorcentajeExoneracion = data;
+                        CalcularContrato(false);
+                    },
+                    error: function (jQxhr, textStatus, errorThrown) {
+                        bootbox.alert({
+                            message: "Error al Obtener % Exoneración",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                        nPorcentajeExoneracion = 0;
+                        CalcularContrato(false);
+                    }
+                });
+
+            } else {
+                nPorcentajeExoneracion = 0;
+                CalcularContrato(false);
+            }
+
+        }
+
+        function CambiarPorcentajeDescuento(nDescuento) {
+            CalcularContrato(false);
+        }
+
+        function Base64ToBytes(base64) {
+            var s = window.atob(base64);
+            var bytes = new Uint8Array(s.length);
+            for (var i = 0; i < s.length; i++) {
+                bytes[i] = s.charCodeAt(i);
+            }
+            return bytes;
+    };
+
+
+    function HablitarProveedores(strValor) {
+        if (strValor.value == 'S') {
+            document.getElementById('ContratoCabeceraModel.CodProveedor').removeAttribute('disabled');
+            document.getElementById('ContratoCabeceraModel.FechaPagoProveedor').removeAttribute('disabled');
+            document.getElementById('ContratoCabeceraModel.FechaPagoProveedor').removeAttribute('hidden');
+            document.getElementById('ContratoCabeceraModel.FrecuenciaPagoProveedor').removeAttribute('disabled');
+            document.getElementById('ContratoCabeceraModel.FrecuenciaPagoProveedor').removeAttribute('hidden');
+            document.getElementById('lblFrecuenciaPagoProveedor').removeAttribute('hidden');
+            document.getElementById('lblFechaPagoProveedor').removeAttribute('hidden');
+        }
+        else
+        {
+            document.getElementById('ContratoCabeceraModel.CodProveedor').setAttribute('disabled', 'disabled');
+            document.getElementById('ContratoCabeceraModel.FechaPagoProveedor').setAttribute('disabled', 'disabled');
+            document.getElementById('ContratoCabeceraModel.FechaPagoProveedor').setAttribute('hidden', 'hidden');
+            document.getElementById('ContratoCabeceraModel.FrecuenciaPagoProveedor').setAttribute('disabled', 'disabled');
+            document.getElementById('ContratoCabeceraModel.FrecuenciaPagoProveedor').setAttribute('hidden', 'hidden');
+            document.getElementById('lblFrecuenciaPagoProveedor').setAttribute('hidden', 'hidden');
+            document.getElementById('lblFechaPagoProveedor').setAttribute('hidden', 'hidden');
+        }
+
+
+    }
+
+    function CargarProveedores() {
+        var url = '@Url.Action("CargarProveedores", "Proveedor")';
+        var parametros =
+        {
+        };
+
+        var ddlProveedor =   $(".CodProveedor");
+        ddlProveedor.empty();
+
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify(parametros),
+
+            success: function (data, textStatus, jQxhr) {
+                var nuevaOpcion = "<option value=''>";
+                nuevaOpcion += "Seleccione un Proveedor";
+                nuevaOpcion += "</option>";
+
+                ddlProveedor.append(nuevaOpcion);
+
+                $(data).each(function () {
+
+                    var objProveedorActual = this;
+                    
+                    nuevaOpcion = "<option value='" + objProveedorActual.Codigo + "'>";
+                    nuevaOpcion += objProveedorActual.Nombre_Completo;
+                    nuevaOpcion += "</option>";
+
+                    ddlProveedor.append(nuevaOpcion);
+                });
+            },
+
+
+            error: function (jQxhr, textStatus, errorThrown) {
+                alert(jQxhr)
+                alert(textStatus)
+                alert(errorThrown)
+            }
+        });
+    }
+
+
+</script>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityPortalLogical", "UtilityPortalLogical\UtilityPortalLogical.csproj", "{3D668F5B-CE1F-4043-94F0-E34D33BA3821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilityPortal", "UtilityPortal\UtilityPortal.csproj", "{ABF41F1D-47A5-41B3-888E-8964893F787B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D668F5B-CE1F-4043-94F0-E34D33BA3821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D668F5B-CE1F-4043-94F0-E34D33BA3821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D668F5B-CE1F-4043-94F0-E34D33BA3821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D668F5B-CE1F-4043-94F0-E34D33BA3821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABF41F1D-47A5-41B3-888E-8964893F787B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABF41F1D-47A5-41B3-888E-8964893F787B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABF41F1D-47A5-41B3-888E-8964893F787B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABF41F1D-47A5-41B3-888E-8964893F787B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9264D6BD-D969-48AD-A82E-0FB06E44C1C0}
+	EndGlobalSection
+EndGlobal

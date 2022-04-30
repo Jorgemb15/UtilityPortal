@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9943cb46261f46839755833b36646697" Name="Diagram1">
+        <EntityTypeShape EntityType="UtilityPortalModel.Canton" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Cliente" Width="1.5" PointX="7.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Configuracion" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Contrato" Width="1.5" PointX="9.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.ContratoDetalle" Width="1.5" PointX="15" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Cotizacion" Width="1.5" PointX="9.75" PointY="17.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.CotizacionDetalle" Width="1.5" PointX="15" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Distrito" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Notificacion_Contrato" Width="1.5" PointX="12" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Perfil" Width="1.5" PointX="10.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Permiso" Width="1.5" PointX="12.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Permiso_Accion" Width="1.5" PointX="2.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Producto" Width="1.5" PointX="12.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Proveedor" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Provincia" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Tipo_Contrato" Width="1.5" PointX="7.5" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.Usuario" Width="1.5" PointX="12.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="UtilityPortalModel.SampleTable" Width="1.5" PointX="2.75" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Canton_Provincia" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Distrito_Canton" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Cliente_Distrito" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Contrato_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Cotizacion_Cliente" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Contrato_Detalle_Contrato" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Contrato_Proveedor" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Contrato_Tipo_Contrato" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Notificacion_Contrato_Contrato" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Contrato_Detalle_Inventario" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_CotizacionDetalle_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Usuario_Distrito" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.FK_Permiso_Permiso" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.Perfil_Permiso" ManuallyRouted="false" />
+        <AssociationConnector Association="UtilityPortalModel.Usuario_Perfil" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

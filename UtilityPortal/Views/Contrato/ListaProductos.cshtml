@@ -1,0 +1,87 @@
+﻿@model List<UtilityPortalLogical.Modelos.SP_Producto_Consulta_Result>
+
+    <script src="~/Scripts/UtilidadesJavaScript.js"></script>
+
+<div class="row">
+    <div class="col-lg-6">
+        <label class="label">Código</label>
+        <input class="form-control clsSoloNumeros" type="text" name="Codigo" id="Codigo" value="" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <label class="label">Nombre</label>
+        <input class="form-control" type="text" name="Nombre" id="Nombre" value="" />
+    </div>
+</div>
+<br />
+
+<div class="row col-lg-10">
+    <div class="col-lg-2">
+        <a id="btnBuscar" name="btnBuscar" title="Buscar" class="btn btn-info" href="#"><span class="fas fa-search"></span> Buscar</a>
+    </div>
+</div>
+
+<br />
+
+@{
+    if (this.Model.Count > 0)
+    {
+        <table id="TablaBusqueda" name="TablaBusqueda" class="table table-bordered table-striped table-responsive-sm table-sm">
+            <thead>
+                <tr class="d-flex">
+                    <th class="col-2">Código</th>
+                    <th class="col-5">Nombre</th>
+                    <th class="col-2">Precio</th>
+                    <th class="col-3">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (UtilityPortalLogical.Modelos.SP_Producto_Consulta_Result PosicionModelo in this.Model)
+                {
+                    <tr class="d-flex">
+                        <td class="col-2">@PosicionModelo.Codigo</td>
+                        <td class="col-5">@PosicionModelo.Nombre</td>
+                        <td class="col-2">@PosicionModelo.Precio</td>
+                        <td class="col-3">
+                            <div class="text-center">
+                                <a id="AgregarButton" name="AgregarButton" IdProducto='@PosicionModelo.Codigo' title="Seleccionar" class="AgregarButton btn btn-success btn-success btn-md center-block w-75px" href="#"><i class="fa fa-check"></i> </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="text-center">
+            <h2>Sin Registros para Mostrar</h2>
+        </div>
+    }
+}
+
+<script>
+    $(".AgregarButton").click(function (e) {
+        e.preventDefault();
+        $("#ModalProducto").modal("hide");
+
+        var Codigo = $(this).attr('IdProducto');
+        AgregarProducto(Codigo);
+
+        return false;
+    });
+
+    $("#btnBuscar").click(function (e) {
+        var nCodigo = 0;
+        if ($("#Codigo").val() != '') {
+            nCodigo = $("#Codigo").val();
+        }
+
+        AgregarNuevoProducto(nCodigo,$("#Nombre").val())
+    });
+
+</script>

@@ -1,0 +1,2431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="UtilityPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Canton">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cod_Provincia" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Apellido1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Apellido2" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Cedula" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Genero" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="date" Nullable="false" />
+          <Property Name="Telefono1" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Telefono2" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cod_Distrito" Type="int" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PorcentajeExoneracion" Type="float" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Configuracion">
+          <Key>
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Grupo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Codigo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="Valor" Type="varbinary" MaxLength="1000" />
+          <Property Name="TipoValor" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Detalle" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Duracion" Type="int" Nullable="false" />
+          <Property Name="FechaInicio" Type="date" Nullable="false" />
+          <Property Name="FechaFin" Type="date" Nullable="false" />
+          <Property Name="FechaPago" Type="date" Nullable="false" />
+          <Property Name="Frecuencia" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="GeneraPagoProveedor" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NotificaFinContratoMes" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NotificaFinContratoSemana" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="NotificaPagoProveedor" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CodCliente" Type="int" Nullable="false" />
+          <Property Name="CodProveedor" Type="int" />
+          <Property Name="FechaPagoProveedor" Type="date" />
+          <Property Name="FrecuenciaPagoProveedor" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Moneda" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PorcentajeDescuento" Type="int" Nullable="false" />
+          <Property Name="SubTotal" Type="float" Nullable="false" />
+          <Property Name="Descuento" Type="float" Nullable="false" />
+          <Property Name="Iva" Type="float" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContratoDetalle">
+          <Key>
+            <PropertyRef Name="CodContrato" />
+            <PropertyRef Name="CodProducto" />
+          </Key>
+          <Property Name="CodContrato" Type="int" Nullable="false" />
+          <Property Name="NumLinea" Type="int" Nullable="false" />
+          <Property Name="CodProducto" Type="int" Nullable="false" />
+          <Property Name="CantidadProducto" Type="int" Nullable="false" />
+          <Property Name="PrecioProducto" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cotizacion">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="CodCliente" Type="int" Nullable="false" />
+          <Property Name="Moneda" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="PorcentajeDescuento" Type="int" Nullable="false" />
+          <Property Name="SubTotal" Type="float" Nullable="false" />
+          <Property Name="Descuento" Type="float" Nullable="false" />
+          <Property Name="Iva" Type="float" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CotizacionDetalle">
+          <Key>
+            <PropertyRef Name="CodCotizacion" />
+            <PropertyRef Name="NumLinea" />
+          </Key>
+          <Property Name="CodCotizacion" Type="int" Nullable="false" />
+          <Property Name="NumLinea" Type="int" Nullable="false" />
+          <Property Name="CodProducto" Type="int" Nullable="false" />
+          <Property Name="CantidadProducto" Type="int" Nullable="false" />
+          <Property Name="PrecioProducto" Type="float" />
+        </EntityType>
+        <EntityType Name="Distrito">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cod_Canton" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Notificacion_Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodContrato" Type="int" Nullable="false" />
+          <Property Name="Titulo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Detalle" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="CorreoEnviado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Perfil_Permiso">
+          <Key>
+            <PropertyRef Name="CodPerfil" />
+            <PropertyRef Name="CodPermiso" />
+          </Key>
+          <Property Name="CodPerfil" Type="int" Nullable="false" />
+          <Property Name="CodPermiso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="CodPadre" Type="int" Nullable="false" />
+          <Property Name="EsFormulario" Type="bit" Nullable="false" />
+          <Property Name="PathFormulario" Type="varchar(max)" />
+          <Property Name="Icono" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Permiso_Accion">
+          <Key>
+            <PropertyRef Name="CodPermiso" />
+            <PropertyRef Name="CodAccion" />
+          </Key>
+          <Property Name="CodPermiso" Type="int" Nullable="false" />
+          <Property Name="CodAccion" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CantidadExistencia" Type="int" Nullable="false" />
+          <Property Name="Precio" Type="float" Nullable="false" />
+          <Property Name="PrecioDolar" Type="float" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Cedula" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Telefono1" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Telefono2" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="SampleTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Col" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tipo_Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="EsServicio" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="UsuarioWindows" Type="varchar" MaxLength="30" />
+          <Property Name="Clave" Type="varbinary" MaxLength="1000" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Cedula" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Apellido1" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Apellido2" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Genero" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="date" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono1" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Telefono2" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cod_Distrito" Type="int" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" />
+          <Property Name="FechaCrea" Type="datetime" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
+          <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Usuario_Perfil">
+          <Key>
+            <PropertyRef Name="CodUsuario" />
+            <PropertyRef Name="CodPerfil" />
+          </Key>
+          <Property Name="CodUsuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="CodPerfil" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Canton_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Canton" Type="Self.Canton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Canton">
+              <PropertyRef Name="Cod_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliente_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="Cod_Distrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="CodCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Detalle_Contrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="ContratoDetalle" Type="Self.ContratoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="ContratoDetalle">
+              <PropertyRef Name="CodContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Detalle_Inventario">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ContratoDetalle" Type="Self.ContratoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="ContratoDetalle">
+              <PropertyRef Name="CodProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Proveedor">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="CodProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Tipo_Contrato">
+          <End Role="Tipo_Contrato" Type="Self.Tipo_Contrato" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cotizacion_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Cotizacion" Type="Self.Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="CodCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="CotizacionDetalle" Type="Self.CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
+              <PropertyRef Name="CodProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distrito_Canton">
+          <End Role="Canton" Type="Self.Canton" Multiplicity="1" />
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canton">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Distrito">
+              <PropertyRef Name="Cod_Canton" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Contrato_Contrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Notificacion_Contrato" Type="Self.Notificacion_Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Notificacion_Contrato">
+              <PropertyRef Name="CodContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfil_Permiso_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Perfil_Permiso" Type="Self.Perfil_Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Perfil_Permiso">
+              <PropertyRef Name="CodPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Perfil_Permiso_Permiso">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Perfil_Permiso" Type="Self.Perfil_Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Perfil_Permiso">
+              <PropertyRef Name="CodPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Permiso">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
+          <End Role="Permiso1" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Permiso1">
+              <PropertyRef Name="CodPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Cod_Distrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfil_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Usuario_Perfil" Type="Self.Usuario_Perfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Usuario_Perfil">
+              <PropertyRef Name="CodPerfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfil_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario_Perfil" Type="Self.Usuario_Perfil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Usuario_Perfil">
+              <PropertyRef Name="CodUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_Canton_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pCodProvincia" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Cliente_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pCedula" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Cliente_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Cliente_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Configuracion_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pGrupo" Type="varchar" Mode="In" />
+          <Parameter Name="pCodigo" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Contrato_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pCodCliente" Type="int" Mode="In" />
+          <Parameter Name="pNomCliente" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Contrato_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Contrato_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ContratoDetalle_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Cotizacion_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pCodCliente" Type="int" Mode="In" />
+          <Parameter Name="pNomCliente" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Cotizacion_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Cotizacion_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_CotizacionDetalle_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_Distrito_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pCodCanton" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Notificacion_Contrato_Correo_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Notificacion_Contrato_Dashboard_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Notificacion_Contrato_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Obtener_Permisos_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pUsuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Producto_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Producto_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Producto_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Proveedor_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pCedula" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Proveedor_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Proveedor_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Provincia_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Tipo_Contrato_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pDescripcion" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Ubicacion_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodDistrito" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SP_Validar_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pTipoAutenticacion" Type="varchar" Mode="In" />
+          <Parameter Name="pUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="pClave" Type="varchar" Mode="In" />
+          <Parameter Name="pIdPrograma" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="UtilityPortalModelStoreContainer">
+          <EntitySet Name="Canton" EntityType="Self.Canton" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configuracion" EntityType="Self.Configuracion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContratoDetalle" EntityType="Self.ContratoDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cotizacion" EntityType="Self.Cotizacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CotizacionDetalle" EntityType="Self.CotizacionDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Distrito" EntityType="Self.Distrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notificacion_Contrato" EntityType="Self.Notificacion_Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfil_Permiso" EntityType="Self.Perfil_Permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permiso_Accion" EntityType="Self.Permiso_Accion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tipo_Contrato" EntityType="Self.Tipo_Contrato" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario_Perfil" EntityType="Self.Usuario_Perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SampleTable" EntityType="Self.SampleTable" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[SampleTable].[ID] AS [ID], 
+[SampleTable].[Col] AS [Col]
+FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Canton_Provincia" Association="Self.FK_Canton_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Canton" EntitySet="Canton" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliente_Distrito" Association="Self.FK_Cliente_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Cliente" Association="Self.FK_Contrato_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Detalle_Contrato" Association="Self.FK_Contrato_Detalle_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ContratoDetalle" EntitySet="ContratoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Detalle_Inventario" Association="Self.FK_Contrato_Detalle_Inventario">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ContratoDetalle" EntitySet="ContratoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Proveedor" Association="Self.FK_Contrato_Proveedor">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Tipo_Contrato" Association="Self.FK_Contrato_Tipo_Contrato">
+            <End Role="Tipo_Contrato" EntitySet="Tipo_Contrato" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Cliente" Association="Self.FK_Cotizacion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Producto" Association="Self.FK_CotizacionDetalle_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distrito_Canton" Association="Self.FK_Distrito_Canton">
+            <End Role="Canton" EntitySet="Canton" />
+            <End Role="Distrito" EntitySet="Distrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Contrato_Contrato" Association="Self.FK_Notificacion_Contrato_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Notificacion_Contrato" EntitySet="Notificacion_Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfil_Permiso_Perfil" Association="Self.FK_Perfil_Permiso_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Perfil_Permiso" EntitySet="Perfil_Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Perfil_Permiso_Permiso" Association="Self.FK_Perfil_Permiso_Permiso">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="Perfil_Permiso" EntitySet="Perfil_Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Permiso" Association="Self.FK_Permiso_Permiso">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="Permiso1" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Distrito" Association="Self.FK_Usuario_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfil_Perfil" Association="Self.FK_Usuario_Perfil_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Usuario_Perfil" EntitySet="Usuario_Perfil" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfil_Usuario" Association="Self.FK_Usuario_Perfil_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Usuario_Perfil" EntitySet="Usuario_Perfil" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="UtilityPortalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Canton">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cod_Provincia" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Provincia" Relationship="Self.FK_Canton_Provincia" FromRole="Canton" ToRole="Provincia" />
+          <NavigationProperty Name="Distrito" Relationship="Self.FK_Distrito_Canton" FromRole="Canton" ToRole="Distrito" />
+        </EntityType>
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Telefono1" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono2" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cod_Distrito" Type="Int32" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PorcentajeExoneracion" Type="Double" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Distrito" Relationship="Self.FK_Cliente_Distrito" FromRole="Cliente" ToRole="Distrito" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK_Contrato_Cliente" FromRole="Cliente" ToRole="Contrato" />
+          <NavigationProperty Name="Cotizacion" Relationship="Self.FK_Cotizacion_Cliente" FromRole="Cliente" ToRole="Cotizacion" />
+        </EntityType>
+        <EntityType Name="Configuracion">
+          <Key>
+            <PropertyRef Name="Grupo" />
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Grupo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Codigo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Binary" MaxLength="1000" FixedLength="false" />
+          <Property Name="TipoValor" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Detalle" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Duracion" Type="Int32" Nullable="false" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FechaPago" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Frecuencia" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="GeneraPagoProveedor" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NotificaFinContratoMes" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NotificaFinContratoSemana" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NotificaPagoProveedor" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CodCliente" Type="Int32" Nullable="false" />
+          <Property Name="CodProveedor" Type="Int32" />
+          <Property Name="FechaPagoProveedor" Type="DateTime" Precision="0" />
+          <Property Name="FrecuenciaPagoProveedor" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Moneda" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PorcentajeDescuento" Type="Int32" Nullable="false" />
+          <Property Name="SubTotal" Type="Double" Nullable="false" />
+          <Property Name="Descuento" Type="Double" Nullable="false" />
+          <Property Name="Iva" Type="Double" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Contrato_Cliente" FromRole="Contrato" ToRole="Cliente" />
+          <NavigationProperty Name="ContratoDetalle" Relationship="Self.FK_Contrato_Detalle_Contrato" FromRole="Contrato" ToRole="ContratoDetalle" />
+          <NavigationProperty Name="Proveedor" Relationship="Self.FK_Contrato_Proveedor" FromRole="Contrato" ToRole="Proveedor" />
+          <NavigationProperty Name="Tipo_Contrato" Relationship="Self.FK_Contrato_Tipo_Contrato" FromRole="Contrato" ToRole="Tipo_Contrato" />
+          <NavigationProperty Name="Notificacion_Contrato" Relationship="Self.FK_Notificacion_Contrato_Contrato" FromRole="Contrato" ToRole="Notificacion_Contrato" />
+        </EntityType>
+        <EntityType Name="ContratoDetalle">
+          <Key>
+            <PropertyRef Name="CodContrato" />
+            <PropertyRef Name="CodProducto" />
+          </Key>
+          <Property Name="CodContrato" Type="Int32" Nullable="false" />
+          <Property Name="NumLinea" Type="Int32" Nullable="false" />
+          <Property Name="CodProducto" Type="Int32" Nullable="false" />
+          <Property Name="CantidadProducto" Type="Int32" Nullable="false" />
+          <Property Name="PrecioProducto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK_Contrato_Detalle_Contrato" FromRole="ContratoDetalle" ToRole="Contrato" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_Contrato_Detalle_Inventario" FromRole="ContratoDetalle" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Cotizacion">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodCliente" Type="Int32" Nullable="false" />
+          <Property Name="Moneda" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PorcentajeDescuento" Type="Int32" Nullable="false" />
+          <Property Name="SubTotal" Type="Double" Nullable="false" />
+          <Property Name="Descuento" Type="Double" Nullable="false" />
+          <Property Name="Iva" Type="Double" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Cotizacion_Cliente" FromRole="Cotizacion" ToRole="Cliente" />
+        </EntityType>
+        <EntityType Name="CotizacionDetalle">
+          <Key>
+            <PropertyRef Name="CodCotizacion" />
+            <PropertyRef Name="NumLinea" />
+          </Key>
+          <Property Name="CodCotizacion" Type="Int32" Nullable="false" />
+          <Property Name="NumLinea" Type="Int32" Nullable="false" />
+          <Property Name="CodProducto" Type="Int32" Nullable="false" />
+          <Property Name="CantidadProducto" Type="Int32" Nullable="false" />
+          <Property Name="PrecioProducto" Type="Double" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_CotizacionDetalle_Producto" FromRole="CotizacionDetalle" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Distrito">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cod_Canton" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Canton" Relationship="Self.FK_Distrito_Canton" FromRole="Distrito" ToRole="Canton" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK_Cliente_Distrito" FromRole="Distrito" ToRole="Cliente" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Distrito" FromRole="Distrito" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Notificacion_Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodContrato" Type="Int32" Nullable="false" />
+          <Property Name="Titulo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Detalle" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CorreoEnviado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK_Notificacion_Contrato_Contrato" FromRole="Notificacion_Contrato" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Permiso" Relationship="Self.Perfil_Permiso" FromRole="Perfil" ToRole="Permiso" />
+          <NavigationProperty Name="Usuario" Relationship="Self.Usuario_Perfil" FromRole="Perfil" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CodPadre" Type="Int32" Nullable="false" />
+          <Property Name="EsFormulario" Type="Boolean" Nullable="false" />
+          <Property Name="PathFormulario" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Icono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Permiso1" Relationship="Self.FK_Permiso_Permiso" FromRole="Permiso" ToRole="Permiso1" />
+          <NavigationProperty Name="Permiso2" Relationship="Self.FK_Permiso_Permiso" FromRole="Permiso1" ToRole="Permiso" />
+          <NavigationProperty Name="Perfil" Relationship="Self.Perfil_Permiso" FromRole="Permiso" ToRole="Perfil" />
+        </EntityType>
+        <EntityType Name="Permiso_Accion">
+          <Key>
+            <PropertyRef Name="CodPermiso" />
+            <PropertyRef Name="CodAccion" />
+          </Key>
+          <Property Name="CodPermiso" Type="Int32" Nullable="false" />
+          <Property Name="CodAccion" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CantidadExistencia" Type="Int32" Nullable="false" />
+          <Property Name="Precio" Type="Double" Nullable="false" />
+          <Property Name="PrecioDolar" Type="Double" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ContratoDetalle" Relationship="Self.FK_Contrato_Detalle_Inventario" FromRole="Producto" ToRole="ContratoDetalle" />
+          <NavigationProperty Name="CotizacionDetalle" Relationship="Self.FK_CotizacionDetalle_Producto" FromRole="Producto" ToRole="CotizacionDetalle" />
+        </EntityType>
+        <EntityType Name="Proveedor">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Telefono1" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono2" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK_Contrato_Proveedor" FromRole="Proveedor" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Provincia">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Canton" Relationship="Self.FK_Canton_Provincia" FromRole="Provincia" ToRole="Canton" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tipo_Contrato">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="EsServicio" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrato" Relationship="Self.FK_Contrato_Tipo_Contrato" FromRole="Tipo_Contrato" ToRole="Contrato" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UsuarioWindows" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Clave" Type="Binary" MaxLength="1000" FixedLength="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cedula" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono1" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono2" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cod_Distrito" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaCrea" Type="DateTime" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaModifica" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Distrito" Relationship="Self.FK_Usuario_Distrito" FromRole="Usuario" ToRole="Distrito" />
+          <NavigationProperty Name="Perfil" Relationship="Self.Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
+        </EntityType>
+        <EntityType Name="SampleTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Col" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Canton_Provincia">
+          <End Role="Provincia" Type="Self.Provincia" Multiplicity="1" />
+          <End Role="Canton" Type="Self.Canton" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provincia">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Canton">
+              <PropertyRef Name="Cod_Provincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Distrito_Canton">
+          <End Role="Canton" Type="Self.Canton" Multiplicity="1" />
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Canton">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Distrito">
+              <PropertyRef Name="Cod_Canton" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cliente_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Cliente">
+              <PropertyRef Name="Cod_Distrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="CodCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cotizacion_Cliente">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+          <End Role="Cotizacion" Type="Self.Cotizacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Cotizacion">
+              <PropertyRef Name="CodCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Detalle_Contrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="ContratoDetalle" Type="Self.ContratoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="ContratoDetalle">
+              <PropertyRef Name="CodContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Proveedor">
+          <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="0..1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proveedor">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="CodProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Tipo_Contrato">
+          <End Role="Tipo_Contrato" Type="Self.Tipo_Contrato" Multiplicity="1" />
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tipo_Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Contrato">
+              <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notificacion_Contrato_Contrato">
+          <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
+          <End Role="Notificacion_Contrato" Type="Self.Notificacion_Contrato" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contrato">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Notificacion_Contrato">
+              <PropertyRef Name="CodContrato" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contrato_Detalle_Inventario">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ContratoDetalle" Type="Self.ContratoDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="ContratoDetalle">
+              <PropertyRef Name="CodProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CotizacionDetalle_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="CotizacionDetalle" Type="Self.CotizacionDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="CotizacionDetalle">
+              <PropertyRef Name="CodProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Distrito">
+          <End Role="Distrito" Type="Self.Distrito" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Distrito">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Cod_Distrito" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permiso_Permiso">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
+          <End Role="Permiso1" Type="Self.Permiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Permiso1">
+              <PropertyRef Name="CodPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Perfil_Permiso">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="*" />
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="*" />
+        </Association>
+        <Association Name="Usuario_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="*" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="UtilityPortalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Canton" EntityType="Self.Canton" />
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Configuracion" EntityType="Self.Configuracion" />
+          <EntitySet Name="Contrato" EntityType="Self.Contrato" />
+          <EntitySet Name="ContratoDetalle" EntityType="Self.ContratoDetalle" />
+          <EntitySet Name="Cotizacion" EntityType="Self.Cotizacion" />
+          <EntitySet Name="CotizacionDetalle" EntityType="Self.CotizacionDetalle" />
+          <EntitySet Name="Distrito" EntityType="Self.Distrito" />
+          <EntitySet Name="Notificacion_Contrato" EntityType="Self.Notificacion_Contrato" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" />
+          <EntitySet Name="Permiso_Accion" EntityType="Self.Permiso_Accion" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+          <EntitySet Name="Provincia" EntityType="Self.Provincia" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tipo_Contrato" EntityType="Self.Tipo_Contrato" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <EntitySet Name="SampleTable" EntityType="Self.SampleTable" />
+          <AssociationSet Name="FK_Canton_Provincia" Association="Self.FK_Canton_Provincia">
+            <End Role="Provincia" EntitySet="Provincia" />
+            <End Role="Canton" EntitySet="Canton" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Distrito_Canton" Association="Self.FK_Distrito_Canton">
+            <End Role="Canton" EntitySet="Canton" />
+            <End Role="Distrito" EntitySet="Distrito" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cliente_Distrito" Association="Self.FK_Cliente_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Cliente" EntitySet="Cliente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Cliente" Association="Self.FK_Contrato_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cotizacion_Cliente" Association="Self.FK_Cotizacion_Cliente">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Cotizacion" EntitySet="Cotizacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Detalle_Contrato" Association="Self.FK_Contrato_Detalle_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="ContratoDetalle" EntitySet="ContratoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Proveedor" Association="Self.FK_Contrato_Proveedor">
+            <End Role="Proveedor" EntitySet="Proveedor" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Tipo_Contrato" Association="Self.FK_Contrato_Tipo_Contrato">
+            <End Role="Tipo_Contrato" EntitySet="Tipo_Contrato" />
+            <End Role="Contrato" EntitySet="Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notificacion_Contrato_Contrato" Association="Self.FK_Notificacion_Contrato_Contrato">
+            <End Role="Contrato" EntitySet="Contrato" />
+            <End Role="Notificacion_Contrato" EntitySet="Notificacion_Contrato" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contrato_Detalle_Inventario" Association="Self.FK_Contrato_Detalle_Inventario">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ContratoDetalle" EntitySet="ContratoDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CotizacionDetalle_Producto" Association="Self.FK_CotizacionDetalle_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="CotizacionDetalle" EntitySet="CotizacionDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Distrito" Association="Self.FK_Usuario_Distrito">
+            <End Role="Distrito" EntitySet="Distrito" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permiso_Permiso" Association="Self.FK_Permiso_Permiso">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="Permiso1" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="Perfil_Permiso" Association="Self.Perfil_Permiso">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Permiso" EntitySet="Permiso" />
+          </AssociationSet>
+          <AssociationSet Name="Usuario_Perfil" Association="Self.Usuario_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Canton_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Canton_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+            <Parameter Name="pCodProvincia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cliente_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Cliente_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+            <Parameter Name="pCedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cliente_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cliente_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Cliente_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Configuracion_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Configuracion_Consulta_Result)">
+            <Parameter Name="pGrupo" Mode="In" Type="String" />
+            <Parameter Name="pCodigo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Contrato_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Contrato_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pCodCliente" Mode="In" Type="Int32" />
+            <Parameter Name="pNomCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Contrato_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Contrato_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Contrato_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ContratoDetalle_Obtener" ReturnType="Collection(UtilityPortalModel.SP_ContratoDetalle_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cotizacion_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Cotizacion_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pCodCliente" Mode="In" Type="Int32" />
+            <Parameter Name="pNomCliente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cotizacion_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Cotizacion_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Cotizacion_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CotizacionDetalle_Obtener" ReturnType="Collection(UtilityPortalModel.SP_CotizacionDetalle_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Distrito_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Distrito_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+            <Parameter Name="pCodCanton" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(UtilityPortalModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(UtilityPortalModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Notificacion_Contrato_Correo_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Notificacion_Contrato_Correo_Consulta_Result)" />
+          <FunctionImport Name="SP_Notificacion_Contrato_Dashboard_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Notificacion_Contrato_Dashboard_Consulta_Result)" />
+          <FunctionImport Name="SP_Notificacion_Contrato_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Obtener_Permisos_Usuario" ReturnType="Collection(UtilityPortalModel.SP_Obtener_Permisos_Usuario_Result)">
+            <Parameter Name="pUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Producto_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Producto_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Producto_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Producto_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Producto_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Proveedor_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Proveedor_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+            <Parameter Name="pCedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Proveedor_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Proveedor_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Proveedor_Obtener_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Provincia_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Provincia_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Tipo_Contrato_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Tipo_Contrato_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pDescripcion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Ubicacion_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Ubicacion_Obtener_Result)">
+            <Parameter Name="pCodDistrito" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="SP_Validar_Usuario" ReturnType="Collection(UtilityPortalModel.SP_Validar_Usuario_Result)">
+            <Parameter Name="pTipoAutenticacion" Mode="In" Type="String" />
+            <Parameter Name="pUsuario" Mode="In" Type="String" />
+            <Parameter Name="pClave" Mode="In" Type="String" />
+            <Parameter Name="pIdPrograma" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_Canton_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="Int32" Name="Cod_Provincia" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Cliente_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido1" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido2" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Genero" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Fecha_Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Telefono2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Correo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Cod_Distrito" Nullable="false" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="PorcentajeExoneracion" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Nombre_Completo" Nullable="false" MaxLength="62" />
+        </ComplexType>
+        <ComplexType Name="SP_Cliente_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido1" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido2" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Genero" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Fecha_Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Telefono2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Correo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Cod_Distrito" Nullable="false" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="PorcentajeExoneracion" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Configuracion_Consulta_Result">
+          <Property Type="String" Name="Grupo" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Valor" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="TipoValor" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="SP_Contrato_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="1000" />
+          <Property Type="Int32" Name="Duracion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="false" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPago" Nullable="false" />
+          <Property Type="String" Name="Frecuencia" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Tipo" Nullable="false" />
+          <Property Type="String" Name="GeneraPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaFinContratoMes" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaFinContratoSemana" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="CodCliente" Nullable="false" />
+          <Property Type="Int32" Name="CodProveedor" Nullable="true" />
+          <Property Type="DateTime" Name="FechaPagoProveedor" Nullable="true" />
+          <Property Type="String" Name="FrecuenciaPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
+          <Property Type="Double" Name="SubTotal" Nullable="false" />
+          <Property Type="Double" Name="Descuento" Nullable="false" />
+          <Property Type="Double" Name="Iva" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Nombre_Completo" Nullable="true" MaxLength="62" />
+        </ComplexType>
+        <ComplexType Name="SP_Contrato_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="1000" />
+          <Property Type="Int32" Name="Duracion" Nullable="false" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="false" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="false" />
+          <Property Type="DateTime" Name="FechaPago" Nullable="false" />
+          <Property Type="String" Name="Frecuencia" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Tipo" Nullable="false" />
+          <Property Type="String" Name="GeneraPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaFinContratoMes" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaFinContratoSemana" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="NotificaPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="CodCliente" Nullable="false" />
+          <Property Type="Int32" Name="CodProveedor" Nullable="true" />
+          <Property Type="DateTime" Name="FechaPagoProveedor" Nullable="true" />
+          <Property Type="String" Name="FrecuenciaPagoProveedor" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
+          <Property Type="Double" Name="SubTotal" Nullable="false" />
+          <Property Type="Double" Name="Descuento" Nullable="false" />
+          <Property Type="Double" Name="Iva" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_ContratoDetalle_Obtener_Result">
+          <Property Type="Int32" Name="CodContrato" Nullable="false" />
+          <Property Type="Int32" Name="NumLinea" Nullable="false" />
+          <Property Type="Int32" Name="CodProducto" Nullable="false" />
+          <Property Type="Int32" Name="CantidadProducto" Nullable="false" />
+          <Property Type="Int32" Name="PrecioProducto" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Cotizacion_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CodCliente" Nullable="false" />
+          <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
+          <Property Type="Double" Name="SubTotal" Nullable="false" />
+          <Property Type="Double" Name="Descuento" Nullable="false" />
+          <Property Type="Double" Name="Iva" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Nombre_Completo" Nullable="true" MaxLength="62" />
+        </ComplexType>
+        <ComplexType Name="SP_Cotizacion_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CodCliente" Nullable="false" />
+          <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
+          <Property Type="Double" Name="SubTotal" Nullable="false" />
+          <Property Type="Double" Name="Descuento" Nullable="false" />
+          <Property Type="Double" Name="Iva" Nullable="false" />
+          <Property Type="Double" Name="Total" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_CotizacionDetalle_Obtener_Result">
+          <Property Type="Int32" Name="CodCotizacion" Nullable="false" />
+          <Property Type="Int32" Name="NumLinea" Nullable="false" />
+          <Property Type="Int32" Name="CodProducto" Nullable="false" />
+          <Property Type="Int32" Name="CantidadProducto" Nullable="false" />
+          <Property Type="Double" Name="PrecioProducto" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Distrito_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="Int32" Name="Cod_Canton" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_Notificacion_Contrato_Correo_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="Int32" Name="CodContrato" Nullable="false" />
+          <Property Type="String" Name="Titulo" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="1000" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CorreoEnviado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_Notificacion_Contrato_Dashboard_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="Int32" Name="CodContrato" Nullable="false" />
+          <Property Type="String" Name="Titulo" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Detalle" Nullable="false" MaxLength="1000" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CorreoEnviado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_Obtener_Permisos_Usuario_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Descripcion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="CodPadre" Nullable="true" />
+          <Property Type="Boolean" Name="EsFormulario" Nullable="true" />
+          <Property Type="String" Name="PathFormulario" Nullable="true" />
+          <Property Type="String" Name="Icono" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Producto_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CantidadExistencia" Nullable="false" />
+          <Property Type="Double" Name="Precio" Nullable="false" />
+          <Property Type="Double" Name="PrecioDolar" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_Producto_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="CantidadExistencia" Nullable="false" />
+          <Property Type="Double" Name="Precio" Nullable="false" />
+          <Property Type="Double" Name="PrecioDolar" Nullable="false" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_Proveedor_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Telefono2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Correo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Nombre_Completo" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_Proveedor_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Telefono2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Correo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Provincia_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Tipo_Contrato_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="EsServicio" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="SP_Ubicacion_Obtener_Result">
+          <Property Type="Int32" Name="CodProvincia" Nullable="false" />
+          <Property Type="Int32" Name="CodCanton" Nullable="true" />
+          <Property Type="Int32" Name="CodDistrito" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_Validar_Usuario_Result">
+          <Property Type="String" Name="Codigo" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="UsuarioWindows" Nullable="true" MaxLength="30" />
+          <Property Type="Binary" Name="Clave" Nullable="true" MaxLength="1000" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Cedula" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido1" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Apellido2" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Genero" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="Fecha_Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Direccion" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Telefono2" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="Correo" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Cod_Distrito" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="UtilityPortalModelStoreContainer" CdmEntityContainer="UtilityPortalEntities">
+          <EntitySetMapping Name="Canton">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Canton">
+              <MappingFragment StoreEntitySet="Canton">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cod_Provincia" ColumnName="Cod_Provincia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cod_Distrito" ColumnName="Cod_Distrito" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="PorcentajeExoneracion" ColumnName="PorcentajeExoneracion" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configuracion">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Configuracion">
+              <MappingFragment StoreEntitySet="Configuracion">
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="TipoValor" ColumnName="TipoValor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contrato">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Contrato">
+              <MappingFragment StoreEntitySet="Contrato">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Duracion" ColumnName="Duracion" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="GeneraPagoProveedor" ColumnName="GeneraPagoProveedor" />
+                <ScalarProperty Name="NotificaFinContratoMes" ColumnName="NotificaFinContratoMes" />
+                <ScalarProperty Name="NotificaFinContratoSemana" ColumnName="NotificaFinContratoSemana" />
+                <ScalarProperty Name="NotificaPagoProveedor" ColumnName="NotificaPagoProveedor" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
+                <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
+                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContratoDetalle">
+            <EntityTypeMapping TypeName="UtilityPortalModel.ContratoDetalle">
+              <MappingFragment StoreEntitySet="ContratoDetalle">
+                <ScalarProperty Name="CodContrato" ColumnName="CodContrato" />
+                <ScalarProperty Name="NumLinea" ColumnName="NumLinea" />
+                <ScalarProperty Name="CodProducto" ColumnName="CodProducto" />
+                <ScalarProperty Name="CantidadProducto" ColumnName="CantidadProducto" />
+                <ScalarProperty Name="PrecioProducto" ColumnName="PrecioProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cotizacion">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Cotizacion">
+              <MappingFragment StoreEntitySet="Cotizacion">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CotizacionDetalle">
+            <EntityTypeMapping TypeName="UtilityPortalModel.CotizacionDetalle">
+              <MappingFragment StoreEntitySet="CotizacionDetalle">
+                <ScalarProperty Name="CodCotizacion" ColumnName="CodCotizacion" />
+                <ScalarProperty Name="NumLinea" ColumnName="NumLinea" />
+                <ScalarProperty Name="CodProducto" ColumnName="CodProducto" />
+                <ScalarProperty Name="CantidadProducto" ColumnName="CantidadProducto" />
+                <ScalarProperty Name="PrecioProducto" ColumnName="PrecioProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Distrito">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Distrito">
+              <MappingFragment StoreEntitySet="Distrito">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cod_Canton" ColumnName="Cod_Canton" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notificacion_Contrato">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Notificacion_Contrato">
+              <MappingFragment StoreEntitySet="Notificacion_Contrato">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodContrato" ColumnName="CodContrato" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CorreoEnviado" ColumnName="CorreoEnviado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Perfil">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Perfil">
+              <MappingFragment StoreEntitySet="Perfil">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permiso">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Permiso">
+              <MappingFragment StoreEntitySet="Permiso">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CodPadre" ColumnName="CodPadre" />
+                <ScalarProperty Name="EsFormulario" ColumnName="EsFormulario" />
+                <ScalarProperty Name="PathFormulario" ColumnName="PathFormulario" />
+                <ScalarProperty Name="Icono" ColumnName="Icono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permiso_Accion">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Permiso_Accion">
+              <MappingFragment StoreEntitySet="Permiso_Accion">
+                <ScalarProperty Name="CodPermiso" ColumnName="CodPermiso" />
+                <ScalarProperty Name="CodAccion" ColumnName="CodAccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CantidadExistencia" ColumnName="CantidadExistencia" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="PrecioDolar" ColumnName="PrecioDolar" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proveedor">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Proveedor">
+              <MappingFragment StoreEntitySet="Proveedor">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provincia">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Provincia">
+              <MappingFragment StoreEntitySet="Provincia">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="UtilityPortalModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tipo_Contrato">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Tipo_Contrato">
+              <MappingFragment StoreEntitySet="Tipo_Contrato">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="UsuarioWindows" ColumnName="UsuarioWindows" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cod_Distrito" ColumnName="Cod_Distrito" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SampleTable">
+            <EntityTypeMapping TypeName="UtilityPortalModel.SampleTable">
+              <MappingFragment StoreEntitySet="SampleTable">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Col" ColumnName="Col" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Perfil_Permiso" TypeName="UtilityPortalModel.Perfil_Permiso" StoreEntitySet="Perfil_Permiso">
+            <EndProperty Name="Perfil">
+              <ScalarProperty Name="Codigo" ColumnName="CodPerfil" />
+            </EndProperty>
+            <EndProperty Name="Permiso">
+              <ScalarProperty Name="Codigo" ColumnName="CodPermiso" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Usuario_Perfil" TypeName="UtilityPortalModel.Usuario_Perfil" StoreEntitySet="Usuario_Perfil">
+            <EndProperty Name="Perfil">
+              <ScalarProperty Name="Codigo" ColumnName="CodPerfil" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="Codigo" ColumnName="CodUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="UtilityPortalModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="SP_Canton_Consulta" FunctionName="UtilityPortalModel.Store.SP_Canton_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Canton_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cod_Provincia" ColumnName="Cod_Provincia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Cliente_Consulta" FunctionName="UtilityPortalModel.Store.SP_Cliente_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Cliente_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cod_Distrito" ColumnName="Cod_Distrito" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="PorcentajeExoneracion" ColumnName="PorcentajeExoneracion" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre_Completo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Cliente_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Cliente_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Cliente_Obtener" FunctionName="UtilityPortalModel.Store.SP_Cliente_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Cliente_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cod_Distrito" ColumnName="Cod_Distrito" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="PorcentajeExoneracion" ColumnName="PorcentajeExoneracion" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Configuracion_Consulta" FunctionName="UtilityPortalModel.Store.SP_Configuracion_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Configuracion_Consulta_Result">
+                <ScalarProperty Name="Grupo" ColumnName="Grupo" />
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="TipoValor" ColumnName="TipoValor" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Contrato_Consulta" FunctionName="UtilityPortalModel.Store.SP_Contrato_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Contrato_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Duracion" ColumnName="Duracion" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="GeneraPagoProveedor" ColumnName="GeneraPagoProveedor" />
+                <ScalarProperty Name="NotificaFinContratoMes" ColumnName="NotificaFinContratoMes" />
+                <ScalarProperty Name="NotificaFinContratoSemana" ColumnName="NotificaFinContratoSemana" />
+                <ScalarProperty Name="NotificaPagoProveedor" ColumnName="NotificaPagoProveedor" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
+                <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
+                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre_Completo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Contrato_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Contrato_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Contrato_Obtener" FunctionName="UtilityPortalModel.Store.SP_Contrato_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Contrato_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Duracion" ColumnName="Duracion" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+                <ScalarProperty Name="FechaPago" ColumnName="FechaPago" />
+                <ScalarProperty Name="Frecuencia" ColumnName="Frecuencia" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="GeneraPagoProveedor" ColumnName="GeneraPagoProveedor" />
+                <ScalarProperty Name="NotificaFinContratoMes" ColumnName="NotificaFinContratoMes" />
+                <ScalarProperty Name="NotificaFinContratoSemana" ColumnName="NotificaFinContratoSemana" />
+                <ScalarProperty Name="NotificaPagoProveedor" ColumnName="NotificaPagoProveedor" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
+                <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
+                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ContratoDetalle_Obtener" FunctionName="UtilityPortalModel.Store.SP_ContratoDetalle_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_ContratoDetalle_Obtener_Result">
+                <ScalarProperty Name="CodContrato" ColumnName="CodContrato" />
+                <ScalarProperty Name="NumLinea" ColumnName="NumLinea" />
+                <ScalarProperty Name="CodProducto" ColumnName="CodProducto" />
+                <ScalarProperty Name="CantidadProducto" ColumnName="CantidadProducto" />
+                <ScalarProperty Name="PrecioProducto" ColumnName="PrecioProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Cotizacion_Consulta" FunctionName="UtilityPortalModel.Store.SP_Cotizacion_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Cotizacion_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre_Completo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Cotizacion_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Cotizacion_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Cotizacion_Obtener" FunctionName="UtilityPortalModel.Store.SP_Cotizacion_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Cotizacion_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
+                <ScalarProperty Name="Moneda" ColumnName="Moneda" />
+                <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Descuento" ColumnName="Descuento" />
+                <ScalarProperty Name="Iva" ColumnName="Iva" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CotizacionDetalle_Obtener" FunctionName="UtilityPortalModel.Store.SP_CotizacionDetalle_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_CotizacionDetalle_Obtener_Result">
+                <ScalarProperty Name="CodCotizacion" ColumnName="CodCotizacion" />
+                <ScalarProperty Name="NumLinea" ColumnName="NumLinea" />
+                <ScalarProperty Name="CodProducto" ColumnName="CodProducto" />
+                <ScalarProperty Name="CantidadProducto" ColumnName="CantidadProducto" />
+                <ScalarProperty Name="PrecioProducto" ColumnName="PrecioProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="UtilityPortalModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="SP_Distrito_Consulta" FunctionName="UtilityPortalModel.Store.SP_Distrito_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Distrito_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Cod_Canton" ColumnName="Cod_Canton" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="UtilityPortalModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="UtilityPortalModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="UtilityPortalModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Notificacion_Contrato_Correo_Consulta" FunctionName="UtilityPortalModel.Store.SP_Notificacion_Contrato_Correo_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Notificacion_Contrato_Correo_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodContrato" ColumnName="CodContrato" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CorreoEnviado" ColumnName="CorreoEnviado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Notificacion_Contrato_Dashboard_Consulta" FunctionName="UtilityPortalModel.Store.SP_Notificacion_Contrato_Dashboard_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Notificacion_Contrato_Dashboard_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="CodContrato" ColumnName="CodContrato" />
+                <ScalarProperty Name="Titulo" ColumnName="Titulo" />
+                <ScalarProperty Name="Detalle" ColumnName="Detalle" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="CorreoEnviado" ColumnName="CorreoEnviado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Notificacion_Contrato_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Notificacion_Contrato_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Obtener_Permisos_Usuario" FunctionName="UtilityPortalModel.Store.SP_Obtener_Permisos_Usuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Obtener_Permisos_Usuario_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CodPadre" ColumnName="CodPadre" />
+                <ScalarProperty Name="EsFormulario" ColumnName="EsFormulario" />
+                <ScalarProperty Name="PathFormulario" ColumnName="PathFormulario" />
+                <ScalarProperty Name="Icono" ColumnName="Icono" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Producto_Consulta" FunctionName="UtilityPortalModel.Store.SP_Producto_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Producto_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CantidadExistencia" ColumnName="CantidadExistencia" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="PrecioDolar" ColumnName="PrecioDolar" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Producto_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Producto_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Producto_Obtener" FunctionName="UtilityPortalModel.Store.SP_Producto_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Producto_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="CantidadExistencia" ColumnName="CantidadExistencia" />
+                <ScalarProperty Name="Precio" ColumnName="Precio" />
+                <ScalarProperty Name="PrecioDolar" ColumnName="PrecioDolar" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Proveedor_Consulta" FunctionName="UtilityPortalModel.Store.SP_Proveedor_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Proveedor_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+                <ScalarProperty Name="Nombre_Completo" ColumnName="Nombre_Completo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Proveedor_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Proveedor_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Proveedor_Obtener" FunctionName="UtilityPortalModel.Store.SP_Proveedor_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Proveedor_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Provincia_Consulta" FunctionName="UtilityPortalModel.Store.SP_Provincia_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Provincia_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="UtilityPortalModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="SP_Tipo_Contrato_Consulta" FunctionName="UtilityPortalModel.Store.SP_Tipo_Contrato_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Tipo_Contrato_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="EsServicio" ColumnName="EsServicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Ubicacion_Obtener" FunctionName="UtilityPortalModel.Store.SP_Ubicacion_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Ubicacion_Obtener_Result">
+                <ScalarProperty Name="CodProvincia" ColumnName="CodProvincia" />
+                <ScalarProperty Name="CodCanton" ColumnName="CodCanton" />
+                <ScalarProperty Name="CodDistrito" ColumnName="CodDistrito" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="UtilityPortalModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="SP_Validar_Usuario" FunctionName="UtilityPortalModel.Store.SP_Validar_Usuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Validar_Usuario_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="UsuarioWindows" ColumnName="UsuarioWindows" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido1" ColumnName="Apellido1" />
+                <ScalarProperty Name="Apellido2" ColumnName="Apellido2" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Telefono1" ColumnName="Telefono1" />
+                <ScalarProperty Name="Telefono2" ColumnName="Telefono2" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Cod_Distrito" ColumnName="Cod_Distrito" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

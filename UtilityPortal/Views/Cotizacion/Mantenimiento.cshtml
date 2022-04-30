@@ -1,0 +1,659 @@
+﻿@model UtilityPortalLogical.Modelos.CotizacionModel
+
+@{
+    ViewBag.Title = "Mantenimiento";
+    Layout = "~/Views/Shared/_LayoutPagePrincipal.cshtml";
+}
+
+<form name="frmFormulario" id="frmFormulario" method="post" style="position:relative">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="CodProceso" id="CodProceso" value="@ViewBag.strCodProceso" />
+    <input type="hidden" name="hddGuardar" id="hddGuardar" value="False" />
+
+    <input type="hidden" name="CotizacionCabeceraModel.UsuarioCrea" id="CotizacionCabeceraModel.UsuarioCrea" value="@(ViewBag.strCodProceso.Equals("I") ? "" : Model.CotizacionCabeceraModel.UsuarioCrea)" />
+    <input type="hidden" name="CotizacionCabeceraModel.FechaCrea" id="CotizacionCabeceraModel.FechaCrea" value=" @(ViewBag.strCodProceso.Equals("I") ? "" : Model.CotizacionCabeceraModel.FechaCrea.ToString("dd/MM/yyyy")) " />
+
+
+    <nav class="navbar navbar-expand-lg bg-transparent">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-end" id="navigation">
+                <div class="col-lg-3">
+                    <select id="CotizacionCabeceraModel.Moneda" name="CotizacionCabeceraModel.Moneda" class="classRequerido form-control" @(ViewBag.strCodProceso.Equals("I") ? "" : "readonly") onchange="CambiarMoneda(this)">
+                        <option value="C" @(Model.CotizacionCabeceraModel.Moneda.Equals("C") ? "selected" : "")>Colones</option>
+                        <option value="D" @(Model.CotizacionCabeceraModel.Moneda.Equals("D") ? "selected" : "")>Dolares</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+
+    <div class="row col-lg-10">
+        <div class="col-lg-3">
+            <a title="Calcular" href="#" class="btn btn-success btn-success" @(ViewBag.strCodProceso.Equals("V") ? "hidden" : "") onclick="CalcularCotizacion(true)"><span class="fa fa-save"></span> Calcular</a>
+        </div>
+        <div class="col-lg-3">
+            <a title="EnviarCorreo" href="#" class="btn btn-secondary" @(ViewBag.strCodProceso.Equals("I") ? "hidden" : "") onclick="EnviarCotizacion()"><span class="fa fa-mail-forward"></span> Enviar</a>
+        </div>
+
+        <div class="col-lg-3">
+            <a title="Descargar" href="#" class="btn btn-primary" @(ViewBag.strCodProceso.Equals("I") ? "hidden" : "") onclick="DescargarCotizacion()"><span class="fa fa-download"></span> Descargar</a>
+        </div>
+
+    </div>
+    <br />
+    <div class="row col-lg-10">
+
+    </div>
+    <br />
+
+    <h2>Cotización</h2>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">CÓDIGO:</label>
+            <input class="form-control w-250" type="text" name="CotizacionCabeceraModel.Codigo" id="CotizacionCabeceraModel.Codigo" value="@(Model.CotizacionCabeceraModel.Codigo > 0 ? Model.CotizacionCabeceraModel.Codigo.ToString() : "")" readonly />
+        </div>
+        <div class="col-lg-4">
+            <label class="label">FECHA:</label>
+            <input class="form-control w-250" type="text" name="CotizacionCabeceraModel.Fecha" id="CotizacionCabeceraModel.Fecha" value="@(Model.CotizacionCabeceraModel.Fecha > DateTime.MinValue  ? Model.CotizacionCabeceraModel.Fecha.ToString("dd/MM/yyyy") : "")" readonly />
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">CLIENTE</label>
+            <select id="CotizacionCabeceraModel.CodCliente" name="CotizacionCabeceraModel.CodCliente" class="classRequerido form-control" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "") onchange="ObtenerExoneracion(this)">
+                <option value="">Seleccione un Cliente</option>
+                @{
+                    foreach (UtilityPortalLogical.Modelos.SP_Cliente_Consulta_Result lstCliente
+                    in this.ViewBag.lstCliente)
+                    {
+                        <option value="@lstCliente.Codigo" @(Model.CotizacionCabeceraModel.CodCliente == lstCliente.Codigo ? "selected" : "")>@lstCliente.Cedula @lstCliente.Nombre_Completo</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <label class="label">DESCUENTO:</label>
+            <input class="form-control w-250" type="text" name="CotizacionCabeceraModel.PorcentajeDescuento" id="CotizacionCabeceraModel.PorcentajeDescuento" value="@Model.CotizacionCabeceraModel.PorcentajeDescuento" @(ViewBag.strCodProceso.Equals("V") ? "disabled" : "") onchange="CambiarPorcentajeDescuento(this)" />
+        </div>
+    </div>
+    <br />
+
+    <div class="row col-lg-10">
+        <div class="col-lg-2">
+            <a id="btnNuevo" name="btnNuevo" title="Nuevo" href="#" class="btn btn-info @(ViewBag.strCodProceso.Equals("V") ? "invisible" : "")" onclick="AgregarNuevoProducto(0, '')"><span class="fa fa-edit"></span> Nuevo</a>
+        </div>
+    </div>
+    <br />
+
+    <table id="Prueba" name="Prueba" class="table table-bordered table-striped table-responsive-sm table-sm">
+        <thead>
+            <tr class="d-flex">
+                <th class="col-2">Codigo Producto</th>
+                <th class="col-4">Nombre Producto</th>
+                <th class="col-2">Precio</th>
+                <th class="col-2">Cantidad</th>
+                <th class="col-2">Acciones</th>
+            </tr>
+        </thead>
+        <tbody name="CuerpoTabla" id="CuerpoTabla">
+            @{
+                int nContador = 0;
+
+                foreach (UtilityPortalLogical.Modelos.SP_CotizacionDetalle_Obtener_Result PosicionModelo in Model.CotizacionDetalleModel)
+                {
+                    <tr name="CotizacionDetalleModel[@nContador]" id="CotizacionDetalleModel[@nContador]" class="d-flex">
+                        <input name="CotizacionDetalleModel[@nContador].CodCotizacion" id="CotizacionDetalleModel[@nContador].CodCotizacion" type="hidden" value="@PosicionModelo.CodCotizacion" />
+                        <input name="CotizacionDetalleModel[@nContador].NumLinea" id="CotizacionDetalleModel[@nContador].NumLinea" type="hidden" value="@PosicionModelo.NumLinea" />
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[@nContador].CodProducto" id="CotizacionDetalleModel[@nContador].CodProducto" value="@PosicionModelo.CodProducto" readonly />
+                            </div>
+                        </td>
+                        <td class="col-4">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[@nContador].Nombre" id="CotizacionDetalleModel[@nContador].Nombre" value="@PosicionModelo.Nombre" readonly />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[@nContador].PrecioProducto" id="CotizacionDetalleModel[@nContador].PrecioProducto" value="@PosicionModelo.PrecioProducto" readonly />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="CotizacionDetalleModel[@nContador].CantidadProducto" id="CotizacionDetalleModel[@nContador].CantidadProducto" value="@PosicionModelo.CantidadProducto" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "") />
+                            </div>
+                        </td>
+                        <td class="col-2">
+                            <div class="text-center">
+                                <a title="Parametros" class="btn btn-danger btn-md center-block w-75px @(ViewBag.strCodProceso.Equals("V") ? "invisible" : "")" href="#" onclick="EliminarLinea(@nContador)"><i class="fa fa-remove"></i> </a>
+                            </div>
+                        </td>
+                    </tr>
+                    nContador = nContador + 1;
+                }
+                <script>
+                    var nContador = @nContador;
+                    var nCodCotizacion = @Model.CotizacionCabeceraModel.Codigo;
+                </script>
+            }
+        </tbody>
+    </table>
+    <br />
+
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">SUBTOTAL</label>
+            <input class="form-control w-250 clsSoloNumeros" type="text" name="CotizacionCabeceraModel.SubTotal" id="CotizacionCabeceraModel.SubTotal" value="@Model.CotizacionCabeceraModel.SubTotal" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">DESCUENTO</label>
+            <input class="form-control w-250 clsSoloNumeros" type="text" name="CotizacionCabeceraModel.Descuento" id="CotizacionCabeceraModel.Descuento" value="@Model.CotizacionCabeceraModel.Descuento" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">IVA</label>
+            <input class="form-control w-250 clsSoloNumeros" type="text" name="CotizacionCabeceraModel.Iva" id="CotizacionCabeceraModel.Iva" value="@Model.CotizacionCabeceraModel.Iva" readonly />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label class="label">TOTAL</label>
+            <input class="form-control w-250 clsSoloNumeros" type="text" name="CotizacionCabeceraModel.Total" id="CotizacionCabeceraModel.Total" value="@Model.CotizacionCabeceraModel.Total" readonly />
+        </div>
+    </div>
+    <br />
+
+    <div>
+        <div class="col-lg-1">
+            <a title="Regresar" class="btn btn-primary" href="@Response.ApplyAppPathModifier("~/Cotizacion/Lista")"><span class="fa fa-backward"></span> Regresar al Listado</a>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalProducto" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Productos</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divProductos" class="col-xl-12">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+<script>
+
+        var CodMoneda = '@Model.CotizacionCabeceraModel.Moneda';
+        var nPorcentajeExoneracion = 0;
+        var nPorcentajeDescuento = 0;
+
+        function ValidarControles() {
+            $("#frmFormulario").validate({
+                rules: {
+                },
+                errorPlacement: function (error, element) {
+                    element.attr("placeholder", error.text());
+                }
+            });
+            $('.classRequerido').each(function () {
+                $(this).rules('add', {
+                    required: true
+                });
+            });
+            AgregarFunciones();
+        }
+
+        function AgregarNuevoProducto(nCodigo, strNombre) {
+            var urlProducto = 'ListaProductos?' + window.location.href.slice(window.location.href.indexOf('?') + 1);
+
+            $.ajax({
+                url: urlProducto,
+                dataType: "html",
+                type: 'POST',
+                data: {
+                    nCodigo: nCodigo,
+                    strNombre: strNombre
+                },
+                success: function (data, textStatus, jQxhr) {
+                    $("#ModalProducto").modal();
+                    $("#divProductos").empty().append(data);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Generar el buscador de Productos",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function AgregarProducto(nCodProducto) {
+
+            var url = '@Url.Action("ObtenerProducto","Cotizacion")';
+            var parametros =
+            {
+                nCodProducto: nCodProducto
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json;',
+                data: JSON.stringify(parametros),
+
+                success: function (data, textStatus, jQxhr) {
+
+                    $(data).each(function () {
+                        var objProducto = this;
+
+                        $("#CuerpoTabla").append('<tr name="CotizacionDetalleModel[' + nContador + ']" id="CotizacionDetalleModel[' + nContador + ']" class="d-flex"><input name="CotizacionDetalleModel[' + nContador + '].CodCotizacion" id="CotizacionDetalleModel[' + nContador + '].CodCotizacion" type="hidden" value="' + nCodCotizacion + '" /><input name="CotizacionDetalleModel[' + nContador + '].NumLinea" id="CotizacionDetalleModel[' + nContador + '].NumLinea" type="hidden" value="' + nContador + '" /><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].CodProducto" id="CotizacionDetalleModel[' + nContador + '].CodProducto" value="' + objProducto.Codigo + '" readonly /></div></td><td class="col-4"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].Nombre" id="CotizacionDetalleModel[' + nContador + '].Nombre" value="' + objProducto.Nombre + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].PrecioProducto" id="CotizacionDetalleModel[' + nContador + '].PrecioProducto" value="' + objProducto.Precio + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].CantidadProducto" id="CotizacionDetalleModel[' + nContador + '].CantidadProducto" value="1" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")/></div></td><td class="col-2"><div class="text-center"><a title="Parametros" class="btn btn-danger btn-md center-block w-75px" href="#" onclick="EliminarLinea(' + nContador + ')" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")><i class="fa fa-remove"></i> </a></div></td></tr>');
+                        AgregarFunciones();
+                        nContador = nContador + 1;
+                    });
+                    CalcularCotizacion(false);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Calcular Cotizacion",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function EliminarLinea(nLinea) {
+            document.getElementById('CotizacionDetalleModel[' + nLinea + ']').remove();
+            CalcularCotizacion(false);
+        }
+
+        function CalcularCotizacion(Guardar) {
+            var url = '@Url.Action("Calcular","Cotizacion")';
+
+            var DetalleCotizacion = [];
+
+            var CuerpoTabla = document.getElementById('CuerpoTabla');
+            var tr = CuerpoTabla.getElementsByTagName('tr');
+
+
+            for (var i = 0; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName('td');
+                var Linea = [];
+                for (var j = 0; j < td.length; j++) {
+                    var div = td[j].getElementsByTagName('div');
+                    for (var v = 0; v < div.length; v++) {
+                        var input = div[v].getElementsByTagName('input');
+                        if (input[0] != null) {
+                            Linea.push(input[0].value);
+                        }
+                    }
+
+                }
+                if (Linea != null) {
+                    DetalleCotizacion.push(Linea);
+                }
+            }
+
+            if (DetalleCotizacion.length > 0) {
+                var parametros =
+                {
+                    DetalleCotizacion: DetalleCotizacion,
+                    nPorcentajeExoneracion: nPorcentajeExoneracion,
+                    nPorcentajeDescuento: document.getElementById('CotizacionCabeceraModel.PorcentajeDescuento').value
+                };
+
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(parametros),
+
+                    success: function (data, textStatus, jQxhr) {
+                        document.getElementById('CotizacionCabeceraModel.SubTotal').value = data.SubTotal;
+                        document.getElementById('CotizacionCabeceraModel.Descuento').value = data.Descuento;
+                        document.getElementById('CotizacionCabeceraModel.Iva').value = data.Iva;
+                        document.getElementById('CotizacionCabeceraModel.Total').value = data.Total;
+
+                        if (CodMoneda == 'C') {
+                        }
+                        else {
+                        }
+                        if (data.DetalleCotizacion != null) {
+                            RegenerarContador(data.DetalleCotizacion);
+                        }
+                        if (data.DetalleCotizacion != null) {
+                            RegenerarContador(data.DetalleCotizacion);
+                        }
+                        if (Guardar == true) {
+
+                            if ($('#frmFormulario').valid()) {
+                                bootbox.confirm({
+                                    message: "El total de la cotizacion es de ₡" + data.Total + ", Desea Guardar la Cotizacion?",
+                                    buttons: {
+                                        confirm: {
+                                            label: 'Yes',
+                                            className: 'btn-success'
+                                        },
+                                        cancel: {
+                                            label: 'No',
+                                            className: 'btn-danger'
+                                        }
+                                    },
+                                    callback: function (result) {
+                                        if (result == true) {
+                                            document.getElementById("hddGuardar").value = "Guardar";
+                                            document.getElementById("frmFormulario").submit();
+                                        }
+                                    }
+                                });
+                            } else {
+                                bootbox.alert({
+                                    message: "Por favor llene todo el Formulario para calcular",
+                                    className: 'rubberBand animated modal-top',
+                                    callback: function () {
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    error: function (jQxhr, textStatus, errorThrown) {
+                        bootbox.alert({
+                            message: "Codigo de Articulo no existe",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        function RegenerarContador(DetalleCotizacion) {
+            const CuerpoTabla = document.getElementById("CuerpoTabla");
+            CuerpoTabla.innerHTML = '';
+            nContador = 0;
+            for (var f = 0; f < DetalleCotizacion.length; f++) {
+                $("#CuerpoTabla").append('<tr name="CotizacionDetalleModel[' + nContador + ']" id="CotizacionDetalleModel[' + nContador + ']" class="d-flex"><input name="CotizacionDetalleModel[' + nContador + '].CodCotizacion" id="CotizacionDetalleModel[' + nContador + '].CodCotizacion" type="hidden" value="' + nCodCotizacion + '" /><input name="CotizacionDetalleModel[' + nContador + '].NumLinea" id="CotizacionDetalleModel[' + nContador + '].NumLinea" type="hidden" value="' + nContador + '" /><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].CodProducto" id="CotizacionDetalleModel[' + nContador + '].CodProducto" value="' + DetalleCotizacion[f][0] + '" readonly /></div></td><td class="col-4"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].Nombre" id="CotizacionDetalleModel[' + nContador + '].Nombre" value="' + DetalleCotizacion[f][1] + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].PrecioProducto" id="CotizacionDetalleModel[' + nContador + '].PrecioProducto" value="' + DetalleCotizacion[f][2] + '" readonly /></div></td><td class="col-2"><div class="text-center"><input class="classRequerido clsSoloNumeros form-control w-90" type="text" name="CotizacionDetalleModel[' + nContador + '].CantidadProducto" id="CotizacionDetalleModel[' + nContador + '].CantidadProducto" value="' + DetalleCotizacion[f][3] + '" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")/></div></td><td class="col-2"><div class="text-center"><a title="Parametros" class="btn btn-danger btn-md center-block w-75px" href="#" onclick="EliminarLinea(' + nContador + ')" @(ViewBag.strCodProceso.Equals("V") ? "readonly" : "")><i class="fa fa-remove"></i> </a></div></td></tr>');
+                nContador = nContador + 1;
+
+            }
+            AgregarFunciones();
+        }
+
+        function AgregarFunciones() {
+            $('.classRequerido').each(function () {
+                $(this).rules('add', {
+                    required: true
+                });
+            });
+            $('.clsSoloNumeros').each(function () {
+                this.addEventListener("keypress", function (e) {
+                    if (e.keyCode) {
+                        if (e.keyCode > 47 && e.keyCode < 58) {
+                            return true;
+                        }
+                        else {
+                            e.preventDefault();
+                            return false;
+                        }
+                    } else if (e.which) {
+                        if (e.which > 47 && e.which < 58) {
+                            return true;
+                        }
+                        else {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                    else {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, false);
+
+                this.addEventListener("blur", function (e) {
+
+                    if (this.value == '') {
+                        this.value = 0;
+                    }
+                    CalcularCotizacion(false);
+                }, true);
+            });
+        }
+
+        function EnviarCotizacion() {
+
+            var url = '@Url.Action("EnviarCorreo","Cotizacion")';
+
+            var parametros =
+            {
+                nCodCotizacion: '@Model.CotizacionCabeceraModel.Codigo.ToString()'
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                async: true,
+                data: JSON.stringify(parametros),
+                success: function (data, textStatus, jQxhr) {
+                    if (data == true) {
+                        bootbox.alert({
+                            message: "Correo Enviado Exitosamente",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    } else {
+                        bootbox.alert({
+                            message: "Correo no enviado, por favor verificar",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                    }
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al enviar Correo " + textStatus + jQxhr,
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function DescargarCotizacion() {
+
+            window.location.href = "@Url.RouteUrl(new { Controller = "Cotizacion", Action = "DescargarCotizacion" })/?nCodCotizacion=" + '@Model.CotizacionCabeceraModel.Codigo.ToString()';
+
+            @*var url = '@Url.Action("DescargarCotizacion", "Cotizacion")';
+
+            var parametros =
+            {
+                nCodCotizacion: '@Model.CotizacionCabeceraModel.Codigo.ToString()'
+            };
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(parametros),
+                success: function (r) {
+                    alert('asdf');
+                    //Convert Base64 string to Byte Array.
+                    //var bytes = Base64ToBytes(r.d);
+
+                    ////Convert Byte Array to BLOB.
+                    //var blob = new Blob([bytes], { type: "application/octetstream" });
+
+                    ////Check the Browser type and download the File.
+                    //var isIE = false || !!document.documentMode;
+                    //if (isIE) {
+                    //    window.navigator.msSaveBlob(blob, fileName);
+                    //} else {
+                    //    var url = window.URL || window.webkitURL;
+                    //    link = url.createObjectURL(blob);
+                    //    var a = $("<a />");
+                    //    a.attr("download", fileName);
+                    //    a.attr("href", link);
+                    //    $("body").append(a);
+                    //    a[0].click();
+                    //    $("body").remove(a);
+                    //}
+                }
+                //,error: function (jQxhr, textStatus, errorThrown) {
+                //    bootbox.alert({
+                //        message: "Error al enviar Correo " + textStatus + jQxhr,
+                //        className: 'rubberBand animated modal-top',
+                //        callback: function () {
+                //        }
+                //    });
+                //}
+            });*@
+                }
+
+        function CambiarMoneda(Control) {
+            var url = '@Url.Action("CambiarMoneda","Cotizacion")';
+            CodMoneda = Control.value;
+            var DetalleCotizacion = [];
+
+            var CuerpoTabla = document.getElementById('CuerpoTabla');
+            var tr = CuerpoTabla.getElementsByTagName('tr');
+
+
+            for (var i = 0; i < tr.length; i++) {
+                var td = tr[i].getElementsByTagName('td');
+                var Linea = [];
+                for (var j = 0; j < td.length; j++) {
+                    var div = td[j].getElementsByTagName('div');
+                    for (var v = 0; v < div.length; v++) {
+                        var input = div[v].getElementsByTagName('input');
+                        if (input[0] != null) {
+                            Linea.push(input[0].value);
+                        }
+                    }
+
+                }
+                if (Linea != null) {
+                    DetalleCotizacion.push(Linea);
+                }
+            }
+
+
+            var parametros =
+            {
+                strCodMoneda: Control.value,
+                DetalleCotizacion: DetalleCotizacion
+            };
+
+
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify(parametros),
+                success: function (data, textStatus, jQxhr) {
+                    if (data.DetalleCotizacion != null) {
+                        RegenerarContador(data.DetalleCotizacion);
+                    }
+                    CalcularCotizacion(false);
+                },
+                error: function (jQxhr, textStatus, errorThrown) {
+                    bootbox.alert({
+                        message: "Error al Cambiar Moneda",
+                        className: 'rubberBand animated modal-top',
+                        callback: function () {
+                        }
+                    });
+                }
+            });
+        }
+
+        function ObtenerExoneracion(nCodCliente) {
+            if (nCodCliente.value != '' && nCodCliente.value) {
+                var url = '@Url.Action("ObtenerExoneracion","Cotizacion")';
+
+                var parametros =
+                {
+                    nCodCliente: nCodCliente.value
+                };
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify(parametros),
+                    success: function (data, textStatus, jQxhr) {
+                        if (data > 0) {
+                            bootbox.alert({
+                                message: "Este Cliente Posee un porcentaje de Exoneracion de " + data + '%',
+                                className: 'rubberBand animated modal-top',
+                                callback: function () {
+                                }
+                            });
+                        }
+                        nPorcentajeExoneracion = data;
+                        CalcularCotizacion(false);
+                    },
+                    error: function (jQxhr, textStatus, errorThrown) {
+                        bootbox.alert({
+                            message: "Error al Obtener % Exoneración",
+                            className: 'rubberBand animated modal-top',
+                            callback: function () {
+                            }
+                        });
+                        nPorcentajeExoneracion = 0;
+                        CalcularCotizacion(false);
+                    }
+                });
+
+            } else {
+                nPorcentajeExoneracion = 0;
+                CalcularCotizacion(false);
+            }
+
+        }
+
+        function CambiarPorcentajeDescuento(nDescuento) {
+            CalcularCotizacion(false);
+        }
+
+        function Base64ToBytes(base64) {
+            var s = window.atob(base64);
+            var bytes = new Uint8Array(s.length);
+            for (var i = 0; i < s.length; i++) {
+                bytes[i] = s.charCodeAt(i);
+            }
+            return bytes;
+        };
+
+</script>
