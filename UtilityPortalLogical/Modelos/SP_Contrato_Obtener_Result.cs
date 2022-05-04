@@ -30,7 +30,6 @@ namespace UtilityPortalLogical.Modelos
         public int CodCliente { get; set; }
         public Nullable<int> CodProveedor { get; set; }
         public Nullable<System.DateTime> FechaPagoProveedor { get; set; }
-        public string FrecuenciaPagoProveedor { get; set; }
         public string Moneda { get; set; }
         public int PorcentajeDescuento { get; set; }
         public double SubTotal { get; set; }

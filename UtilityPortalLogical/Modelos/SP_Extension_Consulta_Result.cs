@@ -11,13 +11,16 @@ namespace UtilityPortalLogical.Modelos
 {
     using System;
     
-    public partial class SP_CotizacionDetalle_Obtener_Result
+    public partial class SP_Extension_Consulta_Result
     {
-        public int CodCotizacion { get; set; }
-        public int NumLinea { get; set; }
-        public int CodProducto { get; set; }
-        public int CantidadProducto { get; set; }
-        public int PrecioProducto { get; set; }
+        public int Codigo { get; set; }
         public string Nombre { get; set; }
+        public string Numero { get; set; }
+        public string Estado { get; set; }
+        public int CodPuesto { get; set; }
+        public string UsuarioCrea { get; set; }
+        public System.DateTime FechaCrea { get; set; }
+        public string UsuarioModifica { get; set; }
+        public System.DateTime FechaModifica { get; set; }
     }
 }

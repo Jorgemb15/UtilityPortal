@@ -11,9 +11,14 @@ namespace UtilityPortalLogical.Modelos
 {
     using System;
     
-    public partial class sp_helpdiagramdefinition_Result
+    public partial class SP_Puesto_Consulta_Result
     {
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Codigo { get; set; }
+        public string Nombre { get; set; }
+        public string Estado { get; set; }
+        public string UsuarioCrea { get; set; }
+        public System.DateTime FechaCrea { get; set; }
+        public string UsuarioModifica { get; set; }
+        public System.DateTime FechaModifica { get; set; }
     }
 }

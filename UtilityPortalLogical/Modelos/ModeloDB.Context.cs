@@ -36,6 +36,7 @@ namespace UtilityPortalLogical.Modelos
         public DbSet<Cotizacion> Cotizacion { get; set; }
         public DbSet<CotizacionDetalle> CotizacionDetalle { get; set; }
         public DbSet<Distrito> Distrito { get; set; }
+        public DbSet<Extension> Extension { get; set; }
         public DbSet<Notificacion_Contrato> Notificacion_Contrato { get; set; }
         public DbSet<Perfil> Perfil { get; set; }
         public DbSet<Permiso> Permiso { get; set; }
@@ -43,31 +44,10 @@ namespace UtilityPortalLogical.Modelos
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Provincia> Provincia { get; set; }
-        public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<Puesto> Puesto { get; set; }
         public DbSet<Tipo_Contrato> Tipo_Contrato { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<SampleTable> SampleTable { get; set; }
-    
-        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
     
         public virtual ObjectResult<SP_Canton_Consulta_Result> SP_Canton_Consulta(Nullable<int> pCodigo, string pNombre, Nullable<int> pCodProvincia)
         {
@@ -234,27 +214,6 @@ namespace UtilityPortalLogical.Modelos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_CotizacionDetalle_Obtener_Result>("SP_CotizacionDetalle_Obtener", pCodigoParameter);
         }
     
-        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            var versionParameter = version.HasValue ?
-                new ObjectParameter("version", version) :
-                new ObjectParameter("version", typeof(int));
-    
-            var definitionParameter = definition != null ?
-                new ObjectParameter("definition", definition) :
-                new ObjectParameter("definition", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
-        }
-    
         public virtual ObjectResult<SP_Distrito_Consulta_Result> SP_Distrito_Consulta(Nullable<int> pCodigo, string pNombre, Nullable<int> pCodCanton)
         {
             var pCodigoParameter = pCodigo.HasValue ?
@@ -272,43 +231,21 @@ namespace UtilityPortalLogical.Modelos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Distrito_Consulta_Result>("SP_Distrito_Consulta", pCodigoParameter, pNombreParameter, pCodCantonParameter);
         }
     
-        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        public virtual ObjectResult<SP_Extension_Consulta_Result> SP_Extension_Consulta(Nullable<int> pCodigo, string pNombre, string pNumero)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var pCodigoParameter = pCodigo.HasValue ?
+                new ObjectParameter("pCodigo", pCodigo) :
+                new ObjectParameter("pCodigo", typeof(int));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var pNombreParameter = pNombre != null ?
+                new ObjectParameter("pNombre", pNombre) :
+                new ObjectParameter("pNombre", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
-        }
+            var pNumeroParameter = pNumero != null ?
+                new ObjectParameter("pNumero", pNumero) :
+                new ObjectParameter("pNumero", typeof(string));
     
-        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
-        {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
-    
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Extension_Consulta_Result>("SP_Extension_Consulta", pCodigoParameter, pNombreParameter, pNumeroParameter);
         }
     
         public virtual ObjectResult<SP_Notificacion_Contrato_Correo_Consulta_Result> SP_Notificacion_Contrato_Correo_Consulta()
@@ -430,21 +367,17 @@ namespace UtilityPortalLogical.Modelos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Provincia_Consulta_Result>("SP_Provincia_Consulta", pCodigoParameter, pNombreParameter);
         }
     
-        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        public virtual ObjectResult<SP_Puesto_Consulta_Result> SP_Puesto_Consulta(Nullable<int> pCodigo, string pNombre)
         {
-            var diagramnameParameter = diagramname != null ?
-                new ObjectParameter("diagramname", diagramname) :
-                new ObjectParameter("diagramname", typeof(string));
+            var pCodigoParameter = pCodigo.HasValue ?
+                new ObjectParameter("pCodigo", pCodigo) :
+                new ObjectParameter("pCodigo", typeof(int));
     
-            var owner_idParameter = owner_id.HasValue ?
-                new ObjectParameter("owner_id", owner_id) :
-                new ObjectParameter("owner_id", typeof(int));
+            var pNombreParameter = pNombre != null ?
+                new ObjectParameter("pNombre", pNombre) :
+                new ObjectParameter("pNombre", typeof(string));
     
-            var new_diagramnameParameter = new_diagramname != null ?
-                new ObjectParameter("new_diagramname", new_diagramname) :
-                new ObjectParameter("new_diagramname", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Puesto_Consulta_Result>("SP_Puesto_Consulta", pCodigoParameter, pNombreParameter);
         }
     
         public virtual ObjectResult<SP_Tipo_Contrato_Consulta_Result> SP_Tipo_Contrato_Consulta(Nullable<int> pCodigo, string pDescripcion)
@@ -469,11 +402,6 @@ namespace UtilityPortalLogical.Modelos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Ubicacion_Obtener_Result>("SP_Ubicacion_Obtener", pCodDistritoParameter);
         }
     
-        public virtual int sp_upgraddiagrams()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
-        }
-    
         public virtual ObjectResult<SP_Validar_Usuario_Result> SP_Validar_Usuario(string pTipoAutenticacion, string pUsuario, string pClave, string pIdPrograma)
         {
             var pTipoAutenticacionParameter = pTipoAutenticacion != null ?
@@ -493,6 +421,50 @@ namespace UtilityPortalLogical.Modelos
                 new ObjectParameter("pIdPrograma", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Validar_Usuario_Result>("SP_Validar_Usuario", pTipoAutenticacionParameter, pUsuarioParameter, pClaveParameter, pIdProgramaParameter);
+        }
+    
+        public virtual ObjectResult<SP_Extension_Obtener_Result> SP_Extension_Obtener(Nullable<int> pCodigo)
+        {
+            var pCodigoParameter = pCodigo.HasValue ?
+                new ObjectParameter("pCodigo", pCodigo) :
+                new ObjectParameter("pCodigo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Extension_Obtener_Result>("SP_Extension_Obtener", pCodigoParameter);
+        }
+    
+        public virtual ObjectResult<SP_Puesto_Obtener_Result> SP_Puesto_Obtener(Nullable<int> pCodigo)
+        {
+            var pCodigoParameter = pCodigo.HasValue ?
+                new ObjectParameter("pCodigo", pCodigo) :
+                new ObjectParameter("pCodigo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Puesto_Obtener_Result>("SP_Puesto_Obtener", pCodigoParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Puesto_Mantenimiento(string pProceso, string pParametros)
+        {
+            var pProcesoParameter = pProceso != null ?
+                new ObjectParameter("pProceso", pProceso) :
+                new ObjectParameter("pProceso", typeof(string));
+    
+            var pParametrosParameter = pParametros != null ?
+                new ObjectParameter("pParametros", pParametros) :
+                new ObjectParameter("pParametros", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Puesto_Mantenimiento", pProcesoParameter, pParametrosParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> SP_Extension_Mantenimiento(string pProceso, string pParametros)
+        {
+            var pProcesoParameter = pProceso != null ?
+                new ObjectParameter("pProceso", pProceso) :
+                new ObjectParameter("pProceso", typeof(string));
+    
+            var pParametrosParameter = pParametros != null ?
+                new ObjectParameter("pParametros", pParametros) :
+                new ObjectParameter("pParametros", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("SP_Extension_Mantenimiento", pProcesoParameter, pParametrosParameter);
         }
     }
 }

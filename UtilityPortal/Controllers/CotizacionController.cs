@@ -17,8 +17,8 @@ namespace UtilityPortal.Controllers
     [Autorizacion]
     public class CotizacionController : Controller
     {
-        private const string strIdPantallaLista = "21";
-        private const string strIdPantallaMantenimiento = "22";
+        private const string strIdPantallaLista = "18";
+        private const string strIdPantallaMantenimiento = "19";
 
         // GET: Cotizacion
         public ActionResult Index()

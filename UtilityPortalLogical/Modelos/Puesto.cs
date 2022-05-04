@@ -10,14 +10,23 @@
 namespace UtilityPortalLogical.Modelos
 {
     using System;
+    using System.Collections.Generic;
     
-    public partial class SP_CotizacionDetalle_Obtener_Result
+    public partial class Puesto
     {
-        public int CodCotizacion { get; set; }
-        public int NumLinea { get; set; }
-        public int CodProducto { get; set; }
-        public int CantidadProducto { get; set; }
-        public int PrecioProducto { get; set; }
+        public Puesto()
+        {
+            this.Extension = new HashSet<Extension>();
+        }
+    
+        public int Codigo { get; set; }
         public string Nombre { get; set; }
+        public string Estado { get; set; }
+        public string UsuarioCrea { get; set; }
+        public System.DateTime FechaCrea { get; set; }
+        public string UsuarioModifica { get; set; }
+        public System.DateTime FechaModifica { get; set; }
+    
+        public virtual ICollection<Extension> Extension { get; set; }
     }
 }

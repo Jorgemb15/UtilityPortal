@@ -16,8 +16,8 @@ namespace UtilityPortal.Controllers
     [Autorizacion]
     public class ContratoController : Controller
     {
-        private const string strIdPantallaLista = "24";
-        private const string strIdPantallaMantenimiento = "25";
+        private const string strIdPantallaLista = "21";
+        private const string strIdPantallaMantenimiento = "22";
 
         // GET: Contrato
         public ActionResult Index()
@@ -233,10 +233,7 @@ namespace UtilityPortal.Controllers
                             {
                                 objModeloVista.ContratoCabeceraModel.NotificaPagoProveedor = "N";
                             }
-                            if (objModeloVista.ContratoCabeceraModel.FrecuenciaPagoProveedor is null)
-                            {
-                                objModeloVista.ContratoCabeceraModel.FrecuenciaPagoProveedor = "N";
-                            }
+                        
                             ObjetoProceso = clsConstantes.RetornaXML<ContratoModel>(objModeloVista);
                             objModeloVista.ContratoCabeceraModel.Codigo = Convert.ToInt32(ModeloBD.SP_Contrato_Mantenimiento(ClsConstantes.strCodigoInsertar, ObjetoProceso).FirstOrDefault());
                             break;

@@ -12,12 +12,18 @@ namespace UtilityPortalLogical.Modelos
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagrams
+    public partial class Extension
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Codigo { get; set; }
+        public string Nombre { get; set; }
+        public string Numero { get; set; }
+        public string Estado { get; set; }
+        public int CodPuesto { get; set; }
+        public string UsuarioCrea { get; set; }
+        public System.DateTime FechaCrea { get; set; }
+        public string UsuarioModifica { get; set; }
+        public System.DateTime FechaModifica { get; set; }
+    
+        public virtual Puesto Puesto { get; set; }
     }
 }

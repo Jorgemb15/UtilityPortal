@@ -18,7 +18,7 @@ namespace UtilityPortalLogical.Modelos
         public int NumLinea { get; set; }
         public int CodProducto { get; set; }
         public int CantidadProducto { get; set; }
-        public Nullable<double> PrecioProducto { get; set; }
+        public int PrecioProducto { get; set; }
     
         public virtual Producto Producto { get; set; }
     }
