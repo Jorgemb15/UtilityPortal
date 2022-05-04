@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="UtilityPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="UtilityPortalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Canton">
           <Key>
             <PropertyRef Name="Codigo" />
@@ -73,7 +73,6 @@
           <Property Name="CodCliente" Type="int" Nullable="false" />
           <Property Name="CodProveedor" Type="int" />
           <Property Name="FechaPagoProveedor" Type="date" />
-          <Property Name="FrecuenciaPagoProveedor" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Moneda" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="PorcentajeDescuento" Type="int" Nullable="false" />
           <Property Name="SubTotal" Type="float" Nullable="false" />
@@ -123,7 +122,7 @@
           <Property Name="NumLinea" Type="int" Nullable="false" />
           <Property Name="CodProducto" Type="int" Nullable="false" />
           <Property Name="CantidadProducto" Type="int" Nullable="false" />
-          <Property Name="PrecioProducto" Type="float" />
+          <Property Name="PrecioProducto" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Distrito">
           <Key>
@@ -137,6 +136,20 @@
           <Property Name="FechaCrea" Type="datetime" />
           <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
           <Property Name="FechaModifica" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Numero" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="CodPuesto" Type="int" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Notificacion_Contrato">
           <Key>
@@ -203,7 +216,7 @@
             <PropertyRef Name="Codigo" />
           </Key>
           <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Cedula" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="Telefono1" Type="varchar" MaxLength="8" Nullable="false" />
@@ -226,6 +239,18 @@
           <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" />
           <Property Name="FechaModifica" Type="datetime" />
         </EntityType>
+        <EntityType Name="Puesto">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="char" MaxLength="1" />
+          <Property Name="UsuarioCrea" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaCrea" Type="datetime" Nullable="false" />
+          <Property Name="UsuarioModifica" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaModifica" Type="datetime" Nullable="false" />
+        </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="SampleTable">
@@ -234,16 +259,6 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Col" Type="varchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Tipo_Contrato">
           <Key>
@@ -406,6 +421,18 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Extension_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="1" />
+          <End Role="Extension" Type="Self.Extension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Extension">
+              <PropertyRef Name="CodPuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Notificacion_Contrato_Contrato">
           <End Role="Contrato" Type="Self.Contrato" Multiplicity="1" />
           <End Role="Notificacion_Contrato" Type="Self.Notificacion_Contrato" Multiplicity="*" />
@@ -492,13 +519,6 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
         <Function Name="SP_Canton_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pCodigo" Type="int" Mode="In" />
           <Parameter Name="pNombre" Type="varchar" Mode="In" />
@@ -550,28 +570,22 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
         <Function Name="SP_CotizacionDetalle_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pCodigo" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
         <Function Name="SP_Distrito_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pCodigo" Type="int" Mode="In" />
           <Parameter Name="pNombre" Type="varchar" Mode="In" />
           <Parameter Name="pCodCanton" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
+        <Function Name="SP_Extension_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+          <Parameter Name="pNumero" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
+        <Function Name="SP_Extension_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
         </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
+        <Function Name="SP_Extension_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Notificacion_Contrato_Correo_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Notificacion_Contrato_Dashboard_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -609,10 +623,16 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
           <Parameter Name="pCodigo" Type="int" Mode="In" />
           <Parameter Name="pNombre" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        <Function Name="SP_Puesto_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
+          <Parameter Name="pNombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_Puesto_Mantenimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pProceso" Type="char" Mode="In" />
+          <Parameter Name="pParametros" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="SP_Puesto_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pCodigo" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Tipo_Contrato_Consulta" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pCodigo" Type="int" Mode="In" />
@@ -621,7 +641,6 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
         <Function Name="SP_Ubicacion_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pCodDistrito" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_Validar_Usuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="pTipoAutenticacion" Type="varchar" Mode="In" />
           <Parameter Name="pUsuario" Type="varchar" Mode="In" />
@@ -637,6 +656,7 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
           <EntitySet Name="Cotizacion" EntityType="Self.Cotizacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CotizacionDetalle" EntityType="Self.CotizacionDetalle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Distrito" EntityType="Self.Distrito" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Extension" EntityType="Self.Extension" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notificacion_Contrato" EntityType="Self.Notificacion_Contrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfil_Permiso" EntityType="Self.Perfil_Permiso" Schema="dbo" store:Type="Tables" />
@@ -645,7 +665,7 @@ advertencia 6002: La tabla o vista 'WebCotizador.dbo.SampleTable' no tiene defin
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tipo_Contrato" EntityType="Self.Tipo_Contrato" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario_Perfil" EntityType="Self.Usuario_Perfil" Schema="dbo" store:Type="Tables" />
@@ -695,6 +715,10 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <End Role="Canton" EntitySet="Canton" />
             <End Role="Distrito" EntitySet="Distrito" />
           </AssociationSet>
+          <AssociationSet Name="FK_Extension_Puesto" Association="Self.FK_Extension_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Extension" EntitySet="Extension" />
+          </AssociationSet>
           <AssociationSet Name="FK_Notificacion_Contrato_Contrato" Association="Self.FK_Notificacion_Contrato_Contrato">
             <End Role="Contrato" EntitySet="Contrato" />
             <End Role="Notificacion_Contrato" EntitySet="Notificacion_Contrato" />
@@ -724,8 +748,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <End Role="Usuario_Perfil" EntitySet="Usuario_Perfil" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="UtilityPortalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -802,7 +825,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Name="CodCliente" Type="Int32" Nullable="false" />
           <Property Name="CodProveedor" Type="Int32" />
           <Property Name="FechaPagoProveedor" Type="DateTime" Precision="0" />
-          <Property Name="FrecuenciaPagoProveedor" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="Moneda" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="PorcentajeDescuento" Type="Int32" Nullable="false" />
           <Property Name="SubTotal" Type="Double" Nullable="false" />
@@ -860,7 +882,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Name="NumLinea" Type="Int32" Nullable="false" />
           <Property Name="CodProducto" Type="Int32" Nullable="false" />
           <Property Name="CantidadProducto" Type="Int32" Nullable="false" />
-          <Property Name="PrecioProducto" Type="Double" />
+          <Property Name="PrecioProducto" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_CotizacionDetalle_Producto" FromRole="CotizacionDetalle" ToRole="Producto" />
         </EntityType>
         <EntityType Name="Distrito">
@@ -878,6 +900,21 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <NavigationProperty Name="Canton" Relationship="Self.FK_Distrito_Canton" FromRole="Distrito" ToRole="Canton" />
           <NavigationProperty Name="Cliente" Relationship="Self.FK_Cliente_Distrito" FromRole="Distrito" ToRole="Cliente" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Distrito" FromRole="Distrito" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Numero" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="CodPuesto" Type="Int32" Nullable="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Puesto" Relationship="Self.FK_Extension_Puesto" FromRole="Extension" ToRole="Puesto" />
         </EntityType>
         <EntityType Name="Notificacion_Contrato">
           <Key>
@@ -944,7 +981,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <PropertyRef Name="Codigo" />
           </Key>
           <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Cedula" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="Telefono1" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
@@ -969,15 +1006,18 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Name="FechaModifica" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Canton" Relationship="Self.FK_Canton_Provincia" FromRole="Provincia" ToRole="Canton" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
+        <EntityType Name="Puesto">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="Codigo" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="UsuarioCrea" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaCrea" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsuarioModifica" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaModifica" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Extension" Relationship="Self.FK_Extension_Puesto" FromRole="Puesto" ToRole="Extension" />
         </EntityType>
         <EntityType Name="Tipo_Contrato">
           <Key>
@@ -1166,6 +1206,18 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Extension_Puesto">
+          <End Role="Puesto" Type="Self.Puesto" Multiplicity="1" />
+          <End Role="Extension" Type="Self.Extension" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Puesto">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Extension">
+              <PropertyRef Name="CodPuesto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Permiso_Permiso">
           <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
           <End Role="Permiso1" Type="Self.Permiso" Multiplicity="*" />
@@ -1195,6 +1247,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <EntitySet Name="Cotizacion" EntityType="Self.Cotizacion" />
           <EntitySet Name="CotizacionDetalle" EntityType="Self.CotizacionDetalle" />
           <EntitySet Name="Distrito" EntityType="Self.Distrito" />
+          <EntitySet Name="Extension" EntityType="Self.Extension" />
           <EntitySet Name="Notificacion_Contrato" EntityType="Self.Notificacion_Contrato" />
           <EntitySet Name="Perfil" EntityType="Self.Perfil" />
           <EntitySet Name="Permiso" EntityType="Self.Permiso" />
@@ -1202,7 +1255,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
           <EntitySet Name="Provincia" EntityType="Self.Provincia" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Puesto" EntityType="Self.Puesto" />
           <EntitySet Name="Tipo_Contrato" EntityType="Self.Tipo_Contrato" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" />
           <EntitySet Name="SampleTable" EntityType="Self.SampleTable" />
@@ -1254,6 +1307,10 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <End Role="Distrito" EntitySet="Distrito" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
+          <AssociationSet Name="FK_Extension_Puesto" Association="Self.FK_Extension_Puesto">
+            <End Role="Puesto" EntitySet="Puesto" />
+            <End Role="Extension" EntitySet="Extension" />
+          </AssociationSet>
           <AssociationSet Name="FK_Permiso_Permiso" Association="Self.FK_Permiso_Permiso">
             <End Role="Permiso" EntitySet="Permiso" />
             <End Role="Permiso1" EntitySet="Permiso" />
@@ -1266,12 +1323,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <End Role="Perfil" EntitySet="Perfil" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
           <FunctionImport Name="SP_Canton_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Canton_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
             <Parameter Name="pNombre" Mode="In" Type="String" />
@@ -1287,7 +1338,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Cliente_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Cliente_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Configuracion_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Configuracion_Consulta_Result)">
             <Parameter Name="pGrupo" Mode="In" Type="String" />
@@ -1303,10 +1354,10 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Contrato_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Contrato_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_ContratoDetalle_Obtener" ReturnType="Collection(UtilityPortalModel.SP_ContratoDetalle_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Cotizacion_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Cotizacion_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
@@ -1318,33 +1369,20 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Cotizacion_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Cotizacion_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_CotizacionDetalle_Obtener" ReturnType="Collection(UtilityPortalModel.SP_CotizacionDetalle_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Distrito_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Distrito_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
             <Parameter Name="pNombre" Mode="In" Type="String" />
             <Parameter Name="pCodCanton" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(UtilityPortalModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(UtilityPortalModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_Extension_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Extension_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
+            <Parameter Name="pNumero" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Notificacion_Contrato_Correo_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Notificacion_Contrato_Correo_Consulta_Result)" />
           <FunctionImport Name="SP_Notificacion_Contrato_Dashboard_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Notificacion_Contrato_Dashboard_Consulta_Result)" />
@@ -1353,7 +1391,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Obtener_Permisos_Usuario" ReturnType="Collection(UtilityPortalModel.SP_Obtener_Permisos_Usuario_Result)">
-            <Parameter Name="pUsuario" Mode="In" Type="String" />
+          <Parameter Name="pUsuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Producto_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Producto_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
@@ -1364,7 +1402,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Producto_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Producto_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Proveedor_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Proveedor_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
@@ -1376,30 +1414,42 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
             <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Proveedor_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Proveedor_Obtener_Result)">
-            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Provincia_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Provincia_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
             <Parameter Name="pNombre" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          <FunctionImport Name="SP_Puesto_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Puesto_Consulta_Result)">
+            <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+            <Parameter Name="pNombre" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Tipo_Contrato_Consulta" ReturnType="Collection(UtilityPortalModel.SP_Tipo_Contrato_Consulta_Result)">
             <Parameter Name="pCodigo" Mode="In" Type="Int32" />
             <Parameter Name="pDescripcion" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Ubicacion_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Ubicacion_Obtener_Result)">
-            <Parameter Name="pCodDistrito" Mode="In" Type="Int32" />
+          <Parameter Name="pCodDistrito" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="SP_Validar_Usuario" ReturnType="Collection(UtilityPortalModel.SP_Validar_Usuario_Result)">
             <Parameter Name="pTipoAutenticacion" Mode="In" Type="String" />
             <Parameter Name="pUsuario" Mode="In" Type="String" />
             <Parameter Name="pClave" Mode="In" Type="String" />
             <Parameter Name="pIdPrograma" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Extension_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Extension_Obtener_Result)">
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Puesto_Obtener" ReturnType="Collection(UtilityPortalModel.SP_Puesto_Obtener_Result)">
+          <Parameter Name="pCodigo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Puesto_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Extension_Mantenimiento" ReturnType="Collection(Int32)">
+            <Parameter Name="pProceso" Mode="In" Type="String" />
+            <Parameter Name="pParametros" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="SP_Canton_Consulta_Result">
@@ -1477,7 +1527,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="Int32" Name="CodCliente" Nullable="false" />
           <Property Type="Int32" Name="CodProveedor" Nullable="true" />
           <Property Type="DateTime" Name="FechaPagoProveedor" Nullable="true" />
-          <Property Type="String" Name="FrecuenciaPagoProveedor" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
           <Property Type="Double" Name="SubTotal" Nullable="false" />
@@ -1508,7 +1557,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="Int32" Name="CodCliente" Nullable="false" />
           <Property Type="Int32" Name="CodProveedor" Nullable="true" />
           <Property Type="DateTime" Name="FechaPagoProveedor" Nullable="true" />
-          <Property Type="String" Name="FrecuenciaPagoProveedor" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Moneda" Nullable="false" MaxLength="1" />
           <Property Type="Int32" Name="PorcentajeDescuento" Nullable="false" />
           <Property Type="Double" Name="SubTotal" Nullable="false" />
@@ -1564,7 +1612,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="Int32" Name="NumLinea" Nullable="false" />
           <Property Type="Int32" Name="CodProducto" Nullable="false" />
           <Property Type="Int32" Name="CantidadProducto" Nullable="false" />
-          <Property Type="Double" Name="PrecioProducto" Nullable="true" />
+          <Property Type="Int32" Name="PrecioProducto" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="SP_Distrito_Consulta_Result">
@@ -1577,16 +1625,16 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
         </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        <ComplexType Name="SP_Extension_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Numero" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="CodPuesto" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
         </ComplexType>
         <ComplexType Name="SP_Notificacion_Contrato_Correo_Consulta_Result">
           <Property Type="Int32" Name="Codigo" Nullable="false" />
@@ -1634,7 +1682,7 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
         </ComplexType>
         <ComplexType Name="SP_Proveedor_Consulta_Result">
           <Property Type="Int32" Name="Codigo" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
@@ -1644,11 +1692,11 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
           <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Nombre_Completo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre_Completo" Nullable="false" MaxLength="20" />
         </ComplexType>
         <ComplexType Name="SP_Proveedor_Obtener_Result">
           <Property Type="Int32" Name="Codigo" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="Telefono1" Nullable="false" MaxLength="8" />
@@ -1667,6 +1715,15 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Puesto_Consulta_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
         </ComplexType>
         <ComplexType Name="SP_Tipo_Contrato_Consulta_Result">
           <Property Type="Int32" Name="Codigo" Nullable="false" />
@@ -1699,6 +1756,26 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
           <Property Type="DateTime" Name="FechaCrea" Nullable="true" Precision="23" />
           <Property Type="String" Name="UsuarioModifica" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="FechaModifica" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Extension_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Numero" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="CodPuesto" Nullable="false" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_Puesto_Obtener_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="UsuarioCrea" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaCrea" Nullable="false" Precision="23" />
+          <Property Type="String" Name="UsuarioModifica" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaModifica" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1775,7 +1852,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
                 <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
                 <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
                 <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
-                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
                 <ScalarProperty Name="Moneda" ColumnName="Moneda" />
                 <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
@@ -1837,6 +1913,21 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
                 <ScalarProperty Name="Cod_Canton" ColumnName="Cod_Canton" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Extension">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Extension">
+              <MappingFragment StoreEntitySet="Extension">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CodPuesto" ColumnName="CodPuesto" />
                 <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
                 <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
                 <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
@@ -1930,14 +2021,16 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="UtilityPortalModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
+          <EntitySetMapping Name="Puesto">
+            <EntityTypeMapping TypeName="UtilityPortalModel.Puesto">
+              <MappingFragment StoreEntitySet="Puesto">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2000,7 +2093,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               <ScalarProperty Name="Codigo" ColumnName="CodUsuario" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="UtilityPortalModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="SP_Canton_Consulta" FunctionName="UtilityPortalModel.Store.SP_Canton_Consulta">
             <ResultMapping>
               <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Canton_Consulta_Result">
@@ -2095,7 +2187,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
                 <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
                 <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
                 <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
-                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
                 <ScalarProperty Name="Moneda" ColumnName="Moneda" />
                 <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
@@ -2131,7 +2222,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
                 <ScalarProperty Name="CodCliente" ColumnName="CodCliente" />
                 <ScalarProperty Name="CodProveedor" ColumnName="CodProveedor" />
                 <ScalarProperty Name="FechaPagoProveedor" ColumnName="FechaPagoProveedor" />
-                <ScalarProperty Name="FrecuenciaPagoProveedor" ColumnName="FrecuenciaPagoProveedor" />
                 <ScalarProperty Name="Moneda" ColumnName="Moneda" />
                 <ScalarProperty Name="PorcentajeDescuento" ColumnName="PorcentajeDescuento" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
@@ -2209,7 +2299,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="UtilityPortalModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="SP_Distrito_Consulta" FunctionName="UtilityPortalModel.Store.SP_Distrito_Consulta">
             <ResultMapping>
               <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Distrito_Consulta_Result">
@@ -2224,23 +2313,18 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="UtilityPortalModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="UtilityPortalModel.Store.sp_helpdiagramdefinition">
+          <FunctionImportMapping FunctionImportName="SP_Extension_Consulta" FunctionName="UtilityPortalModel.Store.SP_Extension_Consulta">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="UtilityPortalModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="UtilityPortalModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="UtilityPortalModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Extension_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CodPuesto" ColumnName="CodPuesto" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2359,7 +2443,19 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="UtilityPortalModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="SP_Puesto_Consulta" FunctionName="UtilityPortalModel.Store.SP_Puesto_Consulta">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Puesto_Consulta_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Tipo_Contrato_Consulta" FunctionName="UtilityPortalModel.Store.SP_Tipo_Contrato_Consulta">
             <ResultMapping>
               <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Tipo_Contrato_Consulta_Result">
@@ -2379,7 +2475,6 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="UtilityPortalModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="SP_Validar_Usuario" FunctionName="UtilityPortalModel.Store.SP_Validar_Usuario">
             <ResultMapping>
               <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Validar_Usuario_Result">
@@ -2405,6 +2500,36 @@ FROM [dbo].[SampleTable] AS [SampleTable]</DefiningQuery>
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Extension_Obtener" FunctionName="UtilityPortalModel.Store.SP_Extension_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Extension_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="CodPuesto" ColumnName="CodPuesto" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Puesto_Obtener" FunctionName="UtilityPortalModel.Store.SP_Puesto_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="UtilityPortalModel.SP_Puesto_Obtener_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="UsuarioCrea" ColumnName="UsuarioCrea" />
+                <ScalarProperty Name="FechaCrea" ColumnName="FechaCrea" />
+                <ScalarProperty Name="UsuarioModifica" ColumnName="UsuarioModifica" />
+                <ScalarProperty Name="FechaModifica" ColumnName="FechaModifica" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Puesto_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Puesto_Mantenimiento" />
+          <FunctionImportMapping FunctionImportName="SP_Extension_Mantenimiento" FunctionName="UtilityPortalModel.Store.SP_Extension_Mantenimiento" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

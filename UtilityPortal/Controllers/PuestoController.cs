@@ -8,28 +8,27 @@ using UtilityPortalLogical.Modelos;
 
 namespace UtilityPortal.Controllers
 {
-    [Autorizacion]
-    public class ProveedorController : Controller
+    public class PuestoController : Controller
     {
-        // GET: Proveedor
+        private const string strIdPantallaLista = "42";
+        private const string strIdPantallaMantenimiento = "43";
+
+        // GET: Extension
         public ActionResult Index()
         {
             return View();
         }
 
-        private const string strIdPantallaLista = "15";
-        private const string strIdPantallaMantenimiento = "16";
-
-        [Autorizacion(Roles = ProveedorController.strIdPantallaLista)]
+        [Autorizacion(Roles = PuestoController.strIdPantallaLista)]
         public ActionResult Lista()
         {
             UtilityPortalEntities ModeloBD = new UtilityPortalEntities();
-            List<SP_Proveedor_Consulta_Result> ModeloVista = null;
+            List<SP_Puesto_Consulta_Result> ModeloVista = null;
             string strResultado = "";
 
             try
             {
-                ModeloVista = ModeloBD.SP_Proveedor_Consulta(null, null, null).ToList();
+                ModeloVista = ModeloBD.SP_Puesto_Consulta(null, null).ToList();
             }
             catch (Exception error)
             {
@@ -45,7 +44,7 @@ namespace UtilityPortal.Controllers
             {
                 if (ModeloVista == null)
                 {
-                    ModeloVista = new List<SP_Proveedor_Consulta_Result>();
+                    ModeloVista = new List<SP_Puesto_Consulta_Result>();
                 }
                 ViewBag.strResultadoOperacion = strResultado.Replace("'", "");
             }
@@ -53,22 +52,23 @@ namespace UtilityPortal.Controllers
             return View(ModeloVista);
         }
 
+
         [HttpPost]
-        public ActionResult Lista(SP_Proveedor_Consulta_Result objModeloVista)
+        public ActionResult Lista(SP_Puesto_Consulta_Result objModeloVista)
         {
             UtilityPortalEntities ModeloBD = new UtilityPortalEntities();
-            List<SP_Proveedor_Consulta_Result> ModeloVista = null;
+            List<SP_Puesto_Consulta_Result> ModeloVista = null;
             string strResultado = "";
 
             try
             {
                 if (objModeloVista.Codigo > 0)
                 {
-                    ModeloVista = ModeloBD.SP_Proveedor_Consulta(objModeloVista.Codigo, objModeloVista.Nombre, objModeloVista.Cedula).ToList();
+                    ModeloVista = ModeloBD.SP_Puesto_Consulta(objModeloVista.Codigo, objModeloVista.Nombre).ToList();
                 }
                 else
                 {
-                    ModeloVista = ModeloBD.SP_Proveedor_Consulta(null, objModeloVista.Nombre, objModeloVista.Cedula).ToList();
+                    ModeloVista = ModeloBD.SP_Puesto_Consulta(null, objModeloVista.Nombre).ToList();
                 }
             }
             catch (Exception error)
@@ -84,7 +84,7 @@ namespace UtilityPortal.Controllers
             {
                 if (ModeloVista == null)
                 {
-                    ModeloVista = new List<SP_Proveedor_Consulta_Result>();
+                    ModeloVista = new List<SP_Puesto_Consulta_Result>();
                 }
                 ViewBag.strResultadoOperacion = strResultado.Replace("'", "");
             }
@@ -92,12 +92,12 @@ namespace UtilityPortal.Controllers
             return View(ModeloVista);
         }
 
-        [Autorizacion(Roles = ProveedorController.strIdPantallaMantenimiento)]
+        [Autorizacion(Roles = PuestoController.strIdPantallaMantenimiento)]
         public ActionResult Mantenimiento(string strCodProceso = ClsConstantes.strCodigoInsertar, int nCodigo = 0)
         {
             UtilityPortalEntities ModeloBD = new UtilityPortalEntities();
 
-            SP_Proveedor_Obtener_Result ModeloVista = new SP_Proveedor_Obtener_Result();
+            SP_Puesto_Obtener_Result ModeloVista = new SP_Puesto_Obtener_Result();
             string strResultado = "";
 
             try
@@ -109,7 +109,7 @@ namespace UtilityPortal.Controllers
                         break;
                     case ClsConstantes.strCodigoModificar:
                         ViewBag.strCodProceso = ClsConstantes.strCodigoModificar;
-                        ModeloVista = ModeloBD.SP_Proveedor_Obtener(nCodigo).FirstOrDefault();
+                        ModeloVista = ModeloBD.SP_Puesto_Obtener(nCodigo).FirstOrDefault();
                         break;
                 }
             }
@@ -126,18 +126,17 @@ namespace UtilityPortal.Controllers
             {
                 if (ModeloVista == null)
                 {
-                    ModeloVista = new SP_Proveedor_Obtener_Result();
+                    ModeloVista = new SP_Puesto_Obtener_Result();
                 }
                 ViewBag.strResultadoOperacion = strResultado.Replace("'", "");
 
             }
 
-
             return View(ModeloVista);
         }
 
         [HttpPost]
-        public ActionResult Mantenimiento(SP_Proveedor_Obtener_Result objModeloVista)
+        public ActionResult Mantenimiento(SP_Puesto_Obtener_Result objModeloVista)
         {
             UtilityPortalEntities ModeloBD = new UtilityPortalEntities();
             SP_Validar_Usuario_Result DatosUsuario = (SP_Validar_Usuario_Result)this.Session["DatosUsuario"];
@@ -158,14 +157,14 @@ namespace UtilityPortal.Controllers
                             objModeloVista.FechaCrea = DateTime.Now;
                             objModeloVista.UsuarioModifica = DatosUsuario.Codigo;
                             objModeloVista.FechaModifica = DateTime.Now;
-                            ObjetoProceso = clsConstantes.RetornaXML<SP_Proveedor_Obtener_Result>(objModeloVista);
-                            objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Proveedor_Mantenimiento(ClsConstantes.strCodigoInsertar, ObjetoProceso).FirstOrDefault());
+                            ObjetoProceso = clsConstantes.RetornaXML<SP_Puesto_Obtener_Result>(objModeloVista);
+                            objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Puesto_Mantenimiento(ClsConstantes.strCodigoInsertar, ObjetoProceso).FirstOrDefault());
                             break;
                         case ClsConstantes.strCodigoModificar:
                             objModeloVista.UsuarioModifica = DatosUsuario.Codigo;
                             objModeloVista.FechaModifica = DateTime.Now;
-                            ObjetoProceso = clsConstantes.RetornaXML<SP_Proveedor_Obtener_Result>(objModeloVista);
-                            objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Proveedor_Mantenimiento(ClsConstantes.strCodigoModificar, ObjetoProceso).FirstOrDefault());
+                            ObjetoProceso = clsConstantes.RetornaXML<SP_Puesto_Obtener_Result>(objModeloVista);
+                            objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Puesto_Mantenimiento(ClsConstantes.strCodigoModificar, ObjetoProceso).FirstOrDefault());
                             break;
                     }
                     ViewBag.strCodProceso = ClsConstantes.strCodigoModificar;
@@ -173,9 +172,11 @@ namespace UtilityPortal.Controllers
                 }
                 if (!string.IsNullOrEmpty(Request["btnEliminar"]))
                 {
-                    ObjetoProceso = clsConstantes.RetornaXML<SP_Proveedor_Obtener_Result>(objModeloVista);
-                    objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Proveedor_Mantenimiento(ClsConstantes.strCodigoEliminar, ObjetoProceso).FirstOrDefault());
-                    objModeloVista = new SP_Proveedor_Obtener_Result();
+                    objModeloVista.UsuarioModifica = DatosUsuario.Codigo;
+                    objModeloVista.FechaModifica = DateTime.Now;
+                    ObjetoProceso = clsConstantes.RetornaXML<SP_Puesto_Obtener_Result>(objModeloVista);
+                    objModeloVista.Codigo = Convert.ToInt32(ModeloBD.SP_Puesto_Mantenimiento(ClsConstantes.strCodigoEliminar, ObjetoProceso).FirstOrDefault());
+                    objModeloVista = new SP_Puesto_Obtener_Result();
                     strResultado = "Actualización de Registro Exitosa";
                     ViewBag.strCodProceso = ClsConstantes.strCodigoInsertar;
                 }
@@ -193,23 +194,16 @@ namespace UtilityPortal.Controllers
             {
                 if (objModeloVista == null)
                 {
-                    objModeloVista = new SP_Proveedor_Obtener_Result();
+                    objModeloVista = new SP_Puesto_Obtener_Result();
                 }
 
                 ViewBag.strResultadoOperacion = strResultado.Replace("'", "");
             }
 
-
             return View(objModeloVista);
         }
 
-        public ActionResult CargarProveedores()
-        {
-            UtilityPortalEntities ModeloBD = new UtilityPortalEntities();
 
-            List<SP_Proveedor_Consulta_Result> lstProveedores = ModeloBD.SP_Proveedor_Consulta(null, null, null).ToList();
 
-            return Json(lstProveedores);
-        }
     }
 }

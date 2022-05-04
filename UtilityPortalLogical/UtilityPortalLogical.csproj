@@ -77,163 +77,172 @@
     <Compile Include="Logica\clsConstantes.cs" />
     <Compile Include="Logica\UsuariosPerfilesProvider.cs" />
     <Compile Include="Modelos\Canton.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Cliente.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Configuracion.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Contrato.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\ContratoDetalle.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\ContratoModel.cs" />
     <Compile Include="Modelos\Cotizacion.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\CotizacionDetalle.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\CotizacionModel.cs" />
     <Compile Include="Modelos\Distrito.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelos\Extension.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\LoginModel.cs" />
-    <Compile Include="Modelos\ModeloBD.Context.cs">
+    <Compile Include="Modelos\ModeloDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloBD.Context.tt</DependentUpon>
+      <DependentUpon>ModeloDB.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelos\ModeloBD.cs">
+    <Compile Include="Modelos\ModeloDB.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelos\ModeloBD.Designer.cs">
+    <Compile Include="Modelos\ModeloDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloBD.edmx</DependentUpon>
+      <DependentUpon>ModeloDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Notificacion_Contrato.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Perfil.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Permiso.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Permiso_Accion.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Producto.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Proveedor.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Provincia.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelos\Puesto.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\ReporteModel.cs" />
     <Compile Include="Modelos\SampleTable.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Canton_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Cliente_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Cliente_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Configuracion_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_ContratoDetalle_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Contrato_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Contrato_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_CotizacionDetalle_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Cotizacion_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Cotizacion_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Distrito_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelos\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+    <Compile Include="Modelos\SP_Extension_Consulta_Result.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelos\sp_helpdiagrams_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+    <Compile Include="Modelos\SP_Extension_Obtener_Result.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Notificacion_Contrato_Correo_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Notificacion_Contrato_Dashboard_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Obtener_Permisos_Usuario_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Producto_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Producto_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Proveedor_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Proveedor_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Provincia_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelos\SP_Puesto_Consulta_Result.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Modelos\SP_Puesto_Obtener_Result.cs">
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Tipo_Contrato_Consulta_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Ubicacion_Obtener_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\SP_Validar_Usuario_Result.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Modelos\sysdiagrams.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Tipo_Contrato.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Modelos\Usuario.cs">
-      <DependentUpon>ModeloBD.tt</DependentUpon>
+      <DependentUpon>ModeloDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Modelos\ModeloBD.edmx">
+    <EntityDeploy Include="Modelos\ModeloDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModeloBD.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModeloDB.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Modelos\ModeloBD.edmx.diagram">
-      <DependentUpon>ModeloBD.edmx</DependentUpon>
+    <None Include="Modelos\ModeloDB.edmx.diagram">
+      <DependentUpon>ModeloDB.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -241,15 +250,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modelos\ModeloBD.Context.tt">
+    <Content Include="Modelos\ModeloDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModeloBD.edmx</DependentUpon>
-      <LastGenOutput>ModeloBD.Context.cs</LastGenOutput>
+      <DependentUpon>ModeloDB.edmx</DependentUpon>
+      <LastGenOutput>ModeloDB.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Modelos\ModeloBD.tt">
+    <Content Include="Modelos\ModeloDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModeloBD.edmx</DependentUpon>
-      <LastGenOutput>ModeloBD.cs</LastGenOutput>
+      <DependentUpon>ModeloDB.edmx</DependentUpon>
+      <LastGenOutput>ModeloDB.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

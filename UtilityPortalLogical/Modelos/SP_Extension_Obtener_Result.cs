@@ -11,12 +11,16 @@ namespace UtilityPortalLogical.Modelos
 {
     using System;
     
-    public partial class sp_helpdiagrams_Result
+    public partial class SP_Extension_Obtener_Result
     {
-        public string Database { get; set; }
-        public string Name { get; set; }
-        public int ID { get; set; }
-        public string Owner { get; set; }
-        public int OwnerID { get; set; }
+        public int Codigo { get; set; }
+        public string Nombre { get; set; }
+        public string Numero { get; set; }
+        public string Estado { get; set; }
+        public int CodPuesto { get; set; }
+        public string UsuarioCrea { get; set; }
+        public System.DateTime FechaCrea { get; set; }
+        public string UsuarioModifica { get; set; }
+        public System.DateTime FechaModifica { get; set; }
     }
 }
